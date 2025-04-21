@@ -281,7 +281,7 @@
         <button class="copy-btn" onclick="copyChatToClipboard()">Копировать смету</button>
     </div>
     
-    <div class="copy-notice" id="copyNotice">у</div>
+    <div class="copy-notice" id="copyNotice">Предварительный расчёт по Вашему запросу</div>
     
     <script>
         let total = 0;
@@ -333,7 +333,7 @@
         
         function copyChatToClipboard() {
             const chat = document.getElementById('chat');
-            let textToCopy = '=== Смета по благоустройству ===\n\n';
+            let textToCopy = 'Предварительный расчёт по Вашему запросу\n\n';
             
             // Получаем только нумерованные сообщения
             const messages = chat.querySelectorAll('.message-numbered');
