@@ -171,7 +171,24 @@
                 flex: 1;
                 order: 2;
                 height: 500px;
+                
             }
+            .message-numbered {
+    margin-bottom: 10px;
+    padding: 12px;
+    background-color: #f0f6ff;
+    border-radius: 10px;
+    border-left: 4px solid #007aff;
+    font-size: 0.95rem;
+    word-break: break-word;
+    counter-increment: item-counter;
+}
+.message-numbered::before {
+    content: counter(item-counter) ".";
+    margin-right: 8px;
+    font-weight: bold;
+    color: #007aff;
+}
         }
     </style>
 </head>
