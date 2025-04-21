@@ -300,13 +300,23 @@
             document.getElementById('chat').style.counterReset = 'item-counter';
         }
         
-        function addMessage(text, price) {
-            const chat = document.getElementById('chat');
-            
-            // Сбрасываем счетчик если это первое сообщение после заголовка
-            if (chat.children.length === 1) {
-                resetCounter();
-            }
+       function addMessage(text, price) {
+    const chat = document.getElementById('chat');
+    
+    // Если это первое сообщение после заголовка, сбрасываем счетчик
+    if (chat.children.length === 1) {
+        chat.style.counterReset = 'item-counter';
+    }
+    
+    const message = document.createElement('div');
+    message.className = 'message-numbered'; // Используем новый класс
+    message.textContent = text;
+    chat.appendChild(message);
+    
+    total += price;
+    updateTotal();
+    chat.scrollTop = chat.scrollHeight;
+}
             
             const message = document.createElement('div');
             message.className = 'message';
@@ -336,27 +346,28 @@
             document.getElementById('total').textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' т.р';
         }
         
-        function clearChat() {
-            if (confirm('Вы действительно хотите очистить всю смету?')) {
-                document.getElementById('chat').innerHTML = '<div class="message">=== Смета по благоустройству ===</div>';
-                total = 0;
-                updateTotal();
-                resetCounter();
-            }
-        }
+       function clearChat() {
+    if (confirm('Вы действительно хотите очистить всю смету?')) {
+        document.getElementById('chat').innerHTML = '<div class="message">=== Смета по благоустройству ===</div>';
+        total = 0;
+        updateTotal();
+        // Сбрасываем счетчик
+        document.getElementById('chat').style.counterReset = 'item-counter';
+    }
+}
         
-        function copyChatToClipboard() {
-            const chat = document.getElementById('chat');
-            let textToCopy = '=== Смета по благоустройству ===\n\n';
-            
-            const messages = chat.getElementsByClassName('message');
-            let counter = 1;
-            
-            for (let i = 0; i < messages.length; i++) {
-                if (!messages[i].textContent.includes('=== Смета по благоустройству ===')) {
-                    textToCopy += counter + '. ' + messages[i].textContent.replace(/^\d+\.\s*/, '') + '\n';
-                    counter++;
-                }
+        
+     function copyChatToClipboard() {
+    const chat = document.getElementById('chat');
+    let textToCopy = '=== Смета по благоустройству ===\n\n';
+    
+    const messages = chat.querySelectorAll('.message-numbered'); // Выбираем только нумерованные
+    messages.forEach((msg, index) => {
+        textToCopy += (index + 1) + '. ' + msg.textContent + '\n';
+    });
+    
+    textToCopy += '\n====================\n';
+    textToCopy += document.getElementById('total').textContent;
             }
             
             textToCopy += '\n====================\n';
