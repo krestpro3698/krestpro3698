@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Калькулятор благоустройства</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background-color: #f5f5f7;
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .buttons-section {
+            order: 2;
+        }
+        .chat-section {
+            order: 1;
+            border: 1px solid #d1d1d6;
+            padding: 15px;
+            height: 300px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            white-space: pre-wrap;
+        }
+        .button-group {
+            margin-bottom: 15px;
+            background-color: white;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .button-group h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            font-weight: 500;
+            touch-action: manipulation;
+        }
+        button:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+        .custom-price {
+            display: flex;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+        .custom-price input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d1d1d6;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            min-width: 0;
+            -webkit-appearance: none;
+        }
+        .custom-price button {
+            width: auto;
+            padding: 12px 15px;
+            background-color: #34c759;
+            white-space: nowrap;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 12px;
+            background-color: #f0f6ff;
+            border-radius: 10px;
+            border-left: 4px solid #007aff;
+            font-size: 0.95rem;
+            word-break: break-word;
+            counter-increment: item-counter;
+        }
+        .message::before {
+            content: counter(item-counter) ".";
+            margin-right: 8px;
+            font-weight: bold;
+            color: #007aff;
+        }
+        .total {
+            font-weight: 600;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-size: 1.1rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .clear-btn {
+            background-color: #ff3b30;
+            flex: 1;
+        }
+        .copy-btn {
+            background-color: #af52de;
+            flex: 1;
+        }
+        .copy-notice {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007aff;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .copy-notice.show {
+            opacity: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            .buttons-section {
+                flex: 1;
+                order: 1;
+            }
+            .chat-section {
+                flex: 1;
+                order: 2;
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Калькулятор благоустройства</h1>
+    
+    <div class="container">
+        <div class="buttons-section">
+            <!-- Техника -->
+            <div class="button-group">
+                <h3>Техника</h3>
+                <button onclick="addMessage('Трактор смена 7 часов работы + 1 час подачи - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
+                <button onclick="addMessage('Мини-трактор смена 7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Мини-трактор смена - 35.000 т.р</button>
+                <button onclick="addMessage('Пневмомолот смена 7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Пневмомолот смена - 35.000 т.р</button>
+            </div>
+            
+            <!-- Контейнеры -->
+            <div class="button-group">
+                <h3>Контейнеры</h3>
+                <button onclick="addMessage('Контейнер 27м3 - 35.000 т.р', 35000)">Контейнер 27м3 - 35.000 т.р</button>
+                <button onclick="addMessage('Контейнер 20м3 - 30.000 т.р', 30000)">Контейнер 20м3 - 30.000 т.р</button>
+                <button onclick="addMessage('Контейнер 8м3 - 15.000 т.р', 15000)">Контейнер 8м3 - 15.000 т.р</button>
+                <div class="custom-price">
+                    <input type="number" id="containerPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Контейнер с погрузкой - ', 'containerPrice')">Контейнер с погрузкой</button>
+                </div>
+            </div>
+            
+            <!-- Фрезеровка -->
+            <div class="button-group">
+                <h3>Фрезеровка</h3>
+                <button onclick="addMessage('Фрезеровка мини трактором - 8.000 т.р / сотка', 8000)">Фрезеровка мини трактором - 8.000 т.р / сотка</button>
+                <button onclick="addMessage('Фрезеровка пней - 8.000 т.р', 8000)">Фрезеровка пней - 8.000 т.р</button>
+                <div class="custom-price">
+                    <input type="number" id="frezPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Фрезеровка с выравниванием - ', 'frezPrice')">Фрезеровка с выравниванием</button>
+                </div>
+            </div>
+            
+            <!-- Газоны -->
+            <div class="button-group">
+                <h3>Газоны</h3>
+                <button onclick="addMessage('Посевной газон от 300 т.р/м2', 300)">Посевной газон от 300 т.р/м2</button>
+                <button onclick="addMessage('Рулонный газон от 900 т.р/м2', 900)">Рулонный газон от 900 т.р/м2</button>
+                <div class="custom-price">
+                    <input type="number" id="gazonPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Газон с грунтом - ', 'gazonPrice')">Газон с грунтом</button>
+                </div>
+            </div>
+            
+            <!-- Материалы -->
+            <div class="button-group">
+                <h3>Материалы</h3>
+                <button onclick="addMessage('Песок 10м3 - 15.000 т.р', 15000)">Песок 10м3 - 15.000 т.р</button>
+                <button onclick="addMessage('Щебень 10м3 - 33.000 т.р', 33000)">Щебень 10м3 - 33.000 т.р</button>
+                <button onclick="addMessage('Планировочный грунт 10м3 - 20.000 т.р', 20000)">Планировочный грунт - 20.000 т.р</button>
+                <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт - 35.000 т.р</button>
+            </div>
+            
+            <!-- Другие услуги -->
+            <div class="button-group">
+                <h3>Другие услуги</h3>
+                <button onclick="addMessage('Чипер+оператор смена - 45.000 т.р', 45000)">Чипер+оператор - 45.000 т.р</button>
+                
+                <div class="custom-price">
+                    <input type="number" id="takelazhPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhPrice')">Такелажные работы</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="spilPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Спил/распил - ', 'spilPrice')">Спил/распил</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="listvaPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Сбор листвы - ', 'listvaPrice')">Сбор листвы</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="pokosPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Покос травы - ', 'pokosPrice')">Покос травы</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-section" id="chat">
+            <div class="message">=== Смета по благоустройству ===</div>
+        </div>
+    </div>
+    
+    <div class="total" id="total">
+        Итого: 0 т.р
+    </div>
+    
+    <div class="action-buttons">
+        <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
+        <button class="copy-btn" onclick="copyChatToClipboard()">Копировать смету</button>
+    </div>
+    
+    <div class="copy-notice" id="copyNotice"></div>
+    
+    <script>
+        let total = 0;
+        let itemCounter = 0;
+        
+        function resetCounter() {
+            itemCounter = 0;
+            document.getElementById('chat').style.counterReset = 'item-counter';
+        }
+        
+        function addMessage(text, price) {
+            const chat = document.getElementById('chat');
+            
+            // Сбрасываем счетчик если это первое сообщение после заголовка
+            if (chat.children.length === 1) {
+                resetCounter();
+            }
+            
+            const message = document.createElement('div');
+            message.className = 'message';
+            message.textContent = text;
+            chat.appendChild(message);
+            
+            total += price;
+            updateTotal();
+            chat.scrollTop = chat.scrollHeight;
+            itemCounter++;
+        }
+        
+        function addCustomMessage(prefix, inputId) {
+            const input = document.getElementById(inputId);
+            const price = parseInt(input.value);
+            
+            if (isNaN(price) || price <= 0) {
+                showAlert('Пожалуйста, введите корректную сумму (больше 0)');
+                return;
+            }
+            
+            addMessage(prefix + price.toLocaleString('ru-RU') + ' т.р', price);
+            input.value = '';
+        }
+        
+        function updateTotal() {
+            document.getElementById('total').textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' т.р';
+        }
+        
+        function clearChat() {
+            if (confirm('Вы действительно хотите очистить всю смету?')) {
+                document.getElementById('chat').innerHTML = '<div class="message">=== Смета по благоустройству ===</div>';
+                total = 0;
+                updateTotal();
+                resetCounter();
+            }
+        }
+        
+        function copyChatToClipboard() {
+            const chat = document.getElementById('chat');
+            let textToCopy = '=== Смета по благоустройству ===\n\n';
+            
+            const messages = chat.getElementsByClassName('message');
+            let counter = 1;
+            
+            for (let i = 0; i < messages.length; i++) {
+                if (!messages[i].textContent.includes('=== Смета по благоустройству ===')) {
+                    textToCopy += counter + '. ' + messages[i].textContent.replace(/^\d+\.\s*/, '') + '\n';
+                    counter++;
+                }
+            }
+            
+            textToCopy += '\n====================\n';
+            textToCopy += document.getElementById('total').textContent;
+            
+            // Создаем временный элемент для копирования
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = 0;
+            textarea.style.left = '-9999px';
+            textarea.setAttribute('readonly', '');
+            document.body.appendChild(textarea);
+            
+            // Выделяем текст
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            
+            try {
+                // Пробуем современный Clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy)
+                        .then(() => showCopySuccess())
+                        .catch(() => {
+                            // Если не сработало, используем старый способ
+                            document.execCommand('copy');
+                            showCopySuccess();
+                        });
+                } else {
+                    // Старый способ для старых браузеров
+                    document.execCommand('copy');
+                    showCopySuccess();
+                }
+            } catch (err) {
+                // Если все методы не сработали, предлагаем ручное копирование
+                showCopyManual(textToCopy);
+            } finally {
+                // Удаляем временный элемент
+                document.body.removeChild(textarea);
+            }
+        }
+        
+        function showCopySuccess() {
+            const notice = document.getElementById('copyNotice');
+            notice.textContent = '✅ Смета скопирована!';
+            notice.classList.add('show');
+            
+            setTimeout(() => {
+                notice.classList.remove('show');
+            }, 2000);
+        }
+        
+        function showCopyManual(text) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.right = '0';
+            modal.style.bottom = '0';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            modal.style.zIndex = '1000';
+            modal.style.display = 'flex';
+            modal.style.flexDirection = 'column';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.padding = '20px';
+            
+            const content = document.createElement('div');
+            content.style.backgroundColor = 'white';
+            content.style.padding = '20px';
+            content.style.borderRadius = '12px';
+            content.style.maxWidth = '100%';
+            content.style.maxHeight = '80vh';
+            content.style.overflow = 'auto';
+            content.style.width = '100%';
+            
+            const title = document.createElement('h3');
+            title.textContent = 'Скопируйте текст сметы:';
+            title.style.marginTop = '0';
+            title.style.marginBottom = '15px';
+            content.appendChild(title);
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.width = '100%';
+            textarea.style.minHeight = '150px';
+            textarea.style.marginBottom = '15px';
+            textarea.style.padding = '12px';
+            textarea.style.border = '1px solid #d1d1d6';
+            textarea.style.borderRadius = '8px';
+            textarea.style.fontFamily = 'inherit';
+            textarea.style.fontSize = '0.95rem';
+            content.appendChild(textarea);
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Закрыть';
+            closeBtn.style.padding = '12px 20px';
+            closeBtn.style.backgroundColor = '#007aff';
+            closeBtn.style.color = 'white';
+            closeBtn.style.border = 'none';
+            closeBtn.style.borderRadius = '10px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.fontWeight = '500';
+            closeBtn.style.width = '100%';
+            closeBtn.onclick = () => document.body.removeChild(modal);
+            content.appendChild(closeBtn);
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            // Автоматически выделяем текст для копирования
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+        }
+        
+        function showAlert(message) {
+            alert(message);
+        }
+        
+        // Инициализация счетчика при загрузке
+        resetCounter();
+    </script>
+</body>
+</html>
