@@ -194,7 +194,7 @@
                 <h3>Техника</h3>
                 <button onclick="addMessage('Трактор смена 7 часов работы + 1 час подачи - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
                 <button onclick="addMessage('Мини-трактор смена 7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Мини-трактор смена - 35.000 т.р</button>
-                <button onclick="addMessage('Пневмомолот смена 7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Пневмомолот смена - 35.000 т.р</button>
+                <button onclick="addMessage('Гидромолот смена 7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Гидромолот смена - 35.000 т.р</button>
             </div>
             
             <!-- Контейнеры -->
@@ -268,7 +268,7 @@
         </div>
         
         <div class="chat-section" id="chat">
-            <div class="message">=== Смета по благоустройству ===</div>
+            <div class="message">Предварительный расчёт по Вашему запросу</div>
         </div>
     </div>
     
@@ -323,7 +323,7 @@
         
         function clearChat() {
             if (confirm('Вы действительно хотите очистить всю смету?')) {
-                document.getElementById('chat').innerHTML = '<div class="message">=== Смета по благоустройству ===</div>';
+                document.getElementById('chat').innerHTML = '<div class="message"></div>';
                 total = 0;
                 updateTotal();
                 // Сбрасываем счетчик
