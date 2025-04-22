@@ -312,7 +312,28 @@
             updateTotal();
             chat.scrollTop = chat.scrollHeight;
         }
-        
+
+        function addGazonMessage(name, priceId, areaId) {
+    const price = parseFloat(document.getElementById(priceId).value);
+    const area = parseFloat(document.getElementById(areaId).value);
+    
+    if (isNaN(price) || price <= 0) {
+        showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
+        return;
+    }
+    
+    if (isNaN(area) || area <= 0) {
+        showAlert('Пожалуйста, введите корректную площадь (больше 0)');
+        return;
+    }
+    
+    const totalPrice = price * area;
+    addMessage(`${name} (${price.toLocaleString('ru-RU')} т.р/м² × ${area} м²) - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
+    
+    // Очищаем поля ввода
+    document.getElementById(priceId).value = '';
+    document.getElementById(areaId).value = '';
+}
         function addCustomMessage(prefix, inputId) {
             const input = document.getElementById(inputId);
             const price = parseInt(input.value);
