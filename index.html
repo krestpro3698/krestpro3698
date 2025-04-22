@@ -220,16 +220,25 @@
                 </div>
             </div>
             
-            <!-- Газоны -->
-            <div class="button-group">
-                <h3>Газоны</h3>
-                <button onclick="addMessage('Посевной газон от 300 т.р/м2', 300)">Посевной газон от 300 т.р/м2</button>
-                <button onclick="addMessage('Рулонный газон от 900 т.р/м2', 900)">Рулонный газон от 900 т.р/м2</button>
-                <div class="custom-price">
-                    <input type="number" id="gazonPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Газон с грунтом - ', 'gazonPrice')">Газон с грунтом</button>
-                </div>
-            </div>
+<div class="button-group">
+    <h3>Газоны</h3>
+    <div class="custom-price">
+        <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal">
+        <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal">
+        <button onclick="addGazonMessage('Посевной газон', 'posevPrice', 'posevArea')">Посевной газон</button>
+    </div>
+    
+    <div class="custom-price">
+        <input type="number" id="rulonPrice" placeholder="Цена за м² (т.р)" inputmode="decimal">
+        <input type="number" id="rulonArea" placeholder="Площадь (м²)" inputmode="decimal">
+        <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
+    </div>
+    
+    <div class="custom-price">
+        <input type="number" id="gazonPrice" placeholder="Сумма в т.р" inputmode="decimal">
+        <button onclick="addCustomMessage('Газон с грунтом - ', 'gazonPrice')">Газон с грунтом</button>
+    </div>
+</div>
             
             <!-- Материалы -->
             <div class="button-group">
