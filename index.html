@@ -222,15 +222,19 @@
             
 <div class="button-group">
     <h3>Газоны</h3>
-    <div class="custom-price">
-        <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal">
-        <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal">
+    <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; gap: 8px;">
+            <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
+            <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+        </div>
         <button onclick="addGazonMessage('Посевной газон', 'posevPrice', 'posevArea')">Посевной газон</button>
     </div>
     
-    <div class="custom-price">
-        <input type="number" id="rulonPrice" placeholder="Цена за м² (т.р)" inputmode="decimal">
-        <input type="number" id="rulonArea" placeholder="Площадь (м²)" inputmode="decimal">
+    <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; gap: 8px;">
+            <input type="number" id="rulonPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
+            <input type="number" id="rulonArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+        </div>
         <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
     </div>
     
@@ -313,7 +317,7 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function addGazonMessage(name, priceId, areaId) {
+       function addGazonMessage(name, priceId, areaId) {
     const price = parseFloat(document.getElementById(priceId).value);
     const area = parseFloat(document.getElementById(areaId).value);
     
