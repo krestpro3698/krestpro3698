@@ -21,54 +21,7 @@
         height: 500px;
     }
 }
-            * Стили для истории */
-.modal-history {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    z-index: 2000;
-    overflow-y: auto;
-}
-
-.modal-content {
-    background: white;
-    margin: 50px auto;
-    padding: 20px;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.history-btn {
-    position: fixed;
-    bottom: 120px;
-    right: 20px;
-    width: auto;
-    padding: 12px;
-    background-color: #5ac8fa;
-    border-radius: 50%;
-    z-index: 100;
-}
-
-.history-item {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 8px;
-}
-
-.close-btn {
-    margin-top: 15px;
-    width: 100%;
-}
-            button {
-    transition: all 0.3s ease;
-}
-
+  
 button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -656,22 +609,6 @@ function deleteCalculation(index) {
 }
 
 // Обновляем функцию clearChat
-function clearChat() {
-    if (confirm('Вы действительно хотите очистить весь расчёт?')) {
-        document.getElementById('chat').innerHTML = '<div class="message">Предварительный расчёт по Вашему запросу:</div>';
-        total = 0;
-        updateTotal();
-        document.getElementById('chat').style.counterReset = 'item-counter';
-        saveToHistory(); // Сохраняем пустой расчёт в историю
-    }
-}
     </script>
-    <div id="historyModal" class="modal-history">
-    <div class="modal-content">
-        <h3>История расчётов</h3>
-        <div id="historyList"></div>
-        <button class="close-btn" onclick="closeHistoryModal()">Закрыть</button>
-    </div>
-</div>
 </body>
 </html>
