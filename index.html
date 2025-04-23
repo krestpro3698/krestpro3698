@@ -260,12 +260,12 @@
             </div>
             
             <!-- Другие услуги -->
-             <button onclick="addMessage('Фрезеровка пней - 8.000 т.р', 8000)">Фрезеровка пней - 8.000 т.р</button>
-            <div class="button-group">
+           
                 <h3>Другие услуги</h3>
                 
-                
-                <div class="custom-price">
+                   <input type="number" id="takelazhPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Фрезеровка пней - ', 'takelazhPrice')">Фрезеровка пней</button>
+                </div>
                     <input type="number" id="takelazhPrice" placeholder="Сумма в т.р" inputmode="decimal">
                     <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhPrice')">Такелажные работы</button>
                 </div>
