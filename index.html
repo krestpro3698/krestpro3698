@@ -7,6 +7,20 @@
     <title>Калькулятор услуг</title>
     <style>
         * {
+            @media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+    .buttons-section {
+        flex: 1;
+        order: 1; /* Кнопки слева */
+    }
+    .chat-section {
+        flex: 1;
+        order: 2; /* Чат справа */
+        height: 500px;
+    }
+}
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
