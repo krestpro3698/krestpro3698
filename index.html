@@ -224,7 +224,12 @@
             </div>
             
 <div class="button-group">
-    <h3>Газоны</h3>
+    <h3>Работы по газонам</h3>
+      <div class="custom-price">
+                    <input type="number" id="containerPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Расчистка участка под грабли/такелажные работы - ', 'containerPrice')">Расчистка участка под грабли/такелажные работы</button>
+                </div>
+            </div>
     <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
         <div style="display: flex; gap: 8px;">
             <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
@@ -232,6 +237,8 @@
         </div>
         <button onclick="addGazonMessage('Посевной газон', 'posevPrice', 'posevArea')">Посевной газон</button>
     </div>
+
+
     
     <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
         <div style="display: flex; gap: 8px;">
@@ -241,19 +248,22 @@
         <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
     </div>
     
-    <div class="custom-price">
-        <input type="number" id="gazonPrice" placeholder="Сумма в т.р" inputmode="decimal">
-        <button onclick="addCustomMessage('Газон с грунтом - ', 'gazonPrice')">Газон с грунтом</button>
+       <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; gap: 8px;">
+            <input type="number" id="posevPrice" placeholder="Цена за 100м² (т.р)" inputmode="decimal" style="flex: 1;">
+            <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+        </div>
+        <button onclick="addGazonMessage('Фрезеровка мини-трактором + ручное выравнивание', 'posevPrice', 'posevArea')">Фрезеровка мини-трактором + ручное выравнивание</button>
     </div>
-</div>
+    
             
             <!-- Материалы -->
             <div class="button-group">
                 <h3>Материалы</h3>
                 <button onclick="addMessage('Песок 10м3 - 15.000 т.р', 15000)">Песок 10м3 - 15.000 т.р</button>
                 <button onclick="addMessage('Щебень 10м3 - 33.000 т.р', 33000)">Щебень 10м3 - 33.000 т.р</button>
-                <button onclick="addMessage('Планировочный грунт 10м3 - 20.000 т.р', 20000)">Планировочный грунт - 20.000 т.р</button>
-                <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт - 35.000 т.р</button>
+                <button onclick="addMessage('Планировочный грунт 10м3 - 20.000 т.р', 20000)">Планировочный грунт 10м3 - 20.000 т.р</button>
+                <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт 10м3 - 35.000 т.р</button>
             </div>
             
             <!-- Другие услуги -->
@@ -279,6 +289,10 @@
                 <div class="custom-price">
                     <input type="number" id="pokosPrice" placeholder="Сумма в т.р" inputmode="decimal">
                     <button onclick="addCustomMessage('Покос травы - ', 'pokosPrice')">Покос травы</button>
+                </div>
+                 <div class="custom-price">
+                    <input type="number" id="pokosPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Бригадир смена - ', 'pokosPrice')">Бригадир смена </button>
                 </div>
             </div>
         </div>
