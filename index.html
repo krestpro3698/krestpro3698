@@ -240,12 +240,12 @@
         <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
     </div>
     
-     <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+   <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
     <div style="display: flex; gap: 8px;">
-        <input type="number" id="frezaPrice" placeholder="Цена за 100м² (т.р)" inputmode="decimal" style="flex: 1;">
-        <input type="number" id="frezaArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+        <input type="number" id="frezaPrice" placeholder="Цена за сотку (т.р)" inputmode="decimal" style="flex: 1;">
+        <input type="number" id="frezaArea" placeholder="Кол-во соток" inputmode="decimal" style="flex: 1;">
     </div>
-    <button onclick="addGazonMessage('Фрезеровка мини-трактором + ручное выравнивание', 'frezaPrice', 'frezaArea')">Фрезеровка мини-трактором + ручное выравнивание</button>
+    <button onclick="addFrezaMessage()">Фрезеровка мини-трактором + ручное выравнивание</button>
 </div>
     
             
@@ -307,6 +307,30 @@
     <div class="copy-notice" id="copyNotice"></div>
     
     <script>
+
+        function addFrezaMessage() {
+    const price = parseFloat(document.getElementById('frezaPrice').value);
+    const area = parseFloat(document.getElementById('frezaArea').value);
+    
+    if (isNaN(price) || price <= 0) {
+        showAlert('Введите корректную цену за сотку (больше 0)');
+        return;
+    }
+    
+    if (isNaN(area) || area <= 0) {
+        showAlert('Введите корректное количество соток (больше 0)');
+        return;
+    }
+    
+    const totalPrice = price * area;
+    const description = `Фрезеровка мини-трактором + ручное выравнивание (${price.toLocaleString('ru-RU')} т.р/сотка × ${area} сот.)`;
+    
+    addMessage(`${description} - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
+    
+    // Очищаем поля
+    document.getElementById('frezaPrice').value = '';
+    document.getElementById('frezaArea').value = '';
+}
         let total = 0;
         
         function addMessage(text, price) {
