@@ -349,16 +349,57 @@ button:hover {
     </div>
     
   <div class="action-buttons">
-    <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
-    <button class="execution-btn" onclick="setExecutionDays()">Срок</button>
-    <button class="copy-btn" onclick="copyChatToClipboard()">Копировать</button>
-</div>
+        <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
+        <button class="execution-btn" onclick="setExecutionDays()">Срок</button>
+        <button class="copy-btn" onclick="copyChatToClipboard()">Копировать</button>
+    </div>
     
     <div class="copy-notice" id="copyNotice"></div>
     
     <script>
         let total = 0;
-        
+     let executionDays = localStorage.getItem('executionDays') || '3-5 дней';
+
+
+        function setExecutionDays() {
+            const days = prompt("Укажите срок исполнения работ:", executionDays);
+            if (days) {
+                executionDays = days;
+                localStorage.setItem('executionDays', days);
+                updateExecutionInChat();
+            }
+        }
+
+        function updateExecutionInChat() {
+            let existing = document.getElementById('executionMessage');
+            if (!existing) {
+                existing = document.createElement('div');
+                existing.id = 'executionMessage';
+                document.getElementById('chat').appendChild(existing);
+            }
+            existing.className = 'message-numbered';
+            existing.textContent = `Срок исполнения работ: ${executionDays}`;
+        }
+
+        function copyChatToClipboard() {
+            const chat = document.getElementById('chat');
+            let textToCopy = 'Предварительный расчёт по Вашему запросу:\n\n';
+            
+            // Собираем все сообщения
+            const messages = chat.querySelectorAll('.message-numbered');
+            messages.forEach((msg, index) => {
+                textToCopy += `${index + 1}. ${msg.textContent.replace(/^\d+\.\s*/, '').trim()}\n`;
+            });
+
+            textToCopy += '\n====================\n';
+            textToCopy += `${document.getElementById('total').textContent}\n`;
+            textToCopy += `Срок исполнения: ${executionDays}`;
+
+            // Копирование в буфер
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => showCopySuccess())
+                .catch(() => document.execCommand('copy'));
+        }
         function addFrezaMessage() {
             const price = parseFloat(document.getElementById('frezaPrice').value);
             const area = parseFloat(document.getElementById('frezaArea').value);
