@@ -9,17 +9,15 @@
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            margin: 0;
-            padding: 0;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
             padding: 15px;
             background-color: #f5f5f7;
             line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
         }
-
         h1 {
             color: #2c3e50;
             text-align: center;
@@ -27,7 +25,6 @@
             margin: 0 0 15px 0;
             font-weight: 600;
         }
-
         .container {
             display: flex;
             flex-direction: column;
@@ -35,22 +32,21 @@
             max-width: 1000px;
             margin: 0 auto;
         }
-
         .buttons-section {
             order: 1;
         }
-
         .chat-section {
             order: 2;
             border: 1px solid #d1d1d6;
             padding: 15px;
             height: 300px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            white-space: pre-wrap;
         }
-
         .button-group {
             margin-bottom: 15px;
             background-color: white;
@@ -58,15 +54,14 @@
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-
         .button-group h3 {
             margin: 0 0 10px 0;
             color: #2c3e50;
             border-bottom: 1px solid #f0f0f0;
             padding-bottom: 8px;
             font-size: 1.1rem;
+            font-weight: 500;
         }
-
         button {
             display: block;
             width: 100%;
@@ -79,63 +74,82 @@
             cursor: pointer;
             font-size: 0.95rem;
             transition: all 0.2s;
+            font-weight: 500;
+            touch-action: manipulation;
         }
-
+        button:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
         .custom-price {
             display: flex;
             margin-bottom: 8px;
             gap: 8px;
         }
-
         .custom-price input {
             flex: 1;
             padding: 12px;
             border: 1px solid #d1d1d6;
             border-radius: 10px;
             font-size: 0.95rem;
+            min-width: 0;
+            -webkit-appearance: none;
         }
-
         .custom-price button {
+            width: auto;
             padding: 12px 15px;
             background-color: #34c759;
             white-space: nowrap;
         }
-
+        .message {
+            margin-bottom: 10px;
+            padding: 12px;
+            background-color: #f0f6ff;
+            border-radius: 10px;
+            border-left: 4px solid #007aff;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
         .message-numbered {
             margin-bottom: 10px;
             padding: 12px;
             background-color: #f0f6ff;
             border-radius: 10px;
             border-left: 4px solid #007aff;
+            font-size: 0.95rem;
+            word-break: break-word;
             counter-increment: item-counter;
         }
-
         .message-numbered::before {
             content: counter(item-counter) ".";
             margin-right: 8px;
             font-weight: bold;
             color: #007aff;
         }
-
         .total {
             font-weight: 600;
             margin: 15px 0;
             padding: 15px;
             background-color: white;
             border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            font-size: 1.1rem;
+            color: #2c3e50;
             text-align: center;
         }
-
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
-
-        .clear-btn { background-color: #ff3b30; }
-        .copy-btn { background-color: #af52de; }
-        .execution-btn { background-color: #ff9500; }
-
+        .clear-btn {
+            background-color: #ff3b30;
+            flex: 1;
+        }
+        .copy-btn {
+            background-color: #af52de;
+            flex: 1;
+        }
         .copy-notice {
             position: fixed;
             bottom: 20px;
@@ -143,19 +157,70 @@
             transform: translateX(-50%);
             background-color: #007aff;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s;
-            max-width: 80%;
         }
-
-        .copy-notice.show { opacity: 1; }
-
+        .copy-notice.show {
+            opacity: 1;
+        }
+        
+        /* Новые стили для блока срока исполнения */
+        .deadline-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-top: 15px;
+        }
+        .deadline-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .deadline-controls label {
+            font-weight: 500;
+            color: #2c3e50;
+            white-space: nowrap;
+        }
+        .deadline-controls input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d1d1d6;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            min-width: 0;
+        }
+        .deadline-result {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #f0f6ff;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            text-align: center;
+            display: none;
+        }
+        .deadline-btn {
+            background-color: #5856d6;
+        }
+        
         @media (min-width: 768px) {
-            .container { flex-direction: row; }
-            .chat-section { height: 500px; }
-            .buttons-section, .chat-section { flex: 1; }
+            .container {
+                flex-direction: row;
+            }
+            .buttons-section {
+                flex: 1;
+                order: 1;
+            }
+            .chat-section {
+                flex: 1;
+                order: 2;
+                height: 500px;
+            }
         }
     </style>
 </head>
@@ -163,8 +228,9 @@
     <h1>Калькулятор услуг</h1>
     
     <div class="container">
+        <!-- Секция с кнопками слева -->
         <div class="buttons-section">
-          <!-- Техника -->
+            <!-- Техника -->
             <div class="button-group">
                 <h3>Техника</h3>
                 <button onclick="addMessage('Трактор смена 7 часов работы + 1 час подачи - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
@@ -172,7 +238,8 @@
                 <button onclick="addMessage('Гидромолот смена 7 часов работы + 1 час подачи- 35.000 т.р', 35000)">Гидромолот смена - 35.000 т.р</button>
                 <button onclick="addMessage('Чипер+оператор смена  7 часов работы + 1 час подачи- 45.000 т.р', 45000)">Чипер+оператор смена - 45.000 т.р</button>
             </div>
- <!-- Контейнеры -->
+            
+            <!-- Контейнеры -->
             <div class="button-group">
                 <h3>Контейнеры</h3>
                 <button onclick="addMessage('Контейнер 27м3 - 35.000 т.р', 35000)">Контейнер 27м3 - 35.000 т.р</button>
@@ -183,8 +250,8 @@
                     <button onclick="addCustomMessage('Контейнер с погрузкой - ', 'containerPrice')">Контейнер с погрузкой</button>
                 </div>
             </div>
-
-         <!-- Работы по газонам -->
+            
+            <!-- Работы по газонам -->
             <div class="button-group">
                 <h3>Работы по газонам</h3>
                 <div class="custom-price">
@@ -216,8 +283,8 @@
                     <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
                 </div>
             </div>
-
-             <!-- Материалы -->
+            
+            <!-- Материалы -->
             <div class="button-group">
                 <h3>Материалы</h3>
                 <button onclick="addMessage('Песок 10м3 - 15.000 т.р', 15000)">Песок 10м3 - 15.000 т.р</button>
@@ -226,7 +293,7 @@
                 <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт 10м3 - 35.000 т.р</button>
             </div>
             
-         <!-- Другие услуги -->
+            <!-- Другие услуги -->
             <div class="button-group">
                 <h3>Другие услуги</h3>
                
@@ -261,95 +328,306 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- Секция чата справа -->
         <div class="chat-section" id="chat">
-            <div class="message-numbered">Предварительный расчёт:</div>
+            <div class="message">Предварительный расчёт по Вашему запросу:</div>
         </div>
     </div>
-
-    <div class="total" id="total">Итого: 0 т.р</div>
-
-    <div class="action-buttons">
-        <button class="clear-btn" onclick="clearAll()">Очистить</button>
-        <button class="execution-btn" onclick="setDeadline()">Срок</button>
-        <button class="copy-btn" onclick="copyResults()">Копировать</button>
+    
+    <!-- Блок срока исполнения -->
+    <div class="deadline-section">
+        <div class="deadline-controls">
+            <label for="daysInput">Количество дней:</label>
+            <input type="number" id="daysInput" placeholder="Введите количество дней" min="1" value="1">
+            <button class="deadline-btn" onclick="calculateDeadline()">Рассчитать срок исполнения</button>
+        </div>
+        <div class="deadline-result" id="deadlineResult"></div>
     </div>
-
-    <div class="copy-notice" id="notice"></div>
-
+    
+    <div class="total" id="total">
+        Итого: 0 т.р
+    </div>
+    
+    <div class="action-buttons">
+        <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
+        <button class="copy-btn" onclick="copyChatToClipboard()">Копировать расчёт</button>
+    </div>
+    
+    <div class="copy-notice" id="copyNotice"></div>
+    
     <script>
         let total = 0;
-        let deadline = localStorage.getItem('deadline') || '3-5 дней';
-
-        function addService(name, price) {
+        
+        function addFrezaMessage() {
+            const price = parseFloat(document.getElementById('frezaPrice').value);
+            const area = parseFloat(document.getElementById('frezaArea').value);
+            
+            if (isNaN(price) || price <= 0) {
+                showAlert('Введите корректную цену за сотку (больше 0)');
+                return;
+            }
+            
+            if (isNaN(area) || area <= 0) {
+                showAlert('Введите корректное количество соток (больше 0)');
+                return;
+            }
+            
+            const totalPrice = price * area;
+            const description = `Фрезеровка мини-трактором + ручное выравнивание (${price.toLocaleString('ru-RU')} т.р/сотка × ${area} сот.)`;
+            
+            addMessage(`${description} - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
+            
+            // Очищаем поля
+            document.getElementById('frezaPrice').value = '';
+            document.getElementById('frezaArea').value = '';
+        }
+        
+        function addMessage(text, price) {
             const chat = document.getElementById('chat');
-            const item = document.createElement('div');
-            item.className = 'message-numbered';
-            item.textContent = `${name} - ${price.toLocaleString('ru-RU')} т.р`;
-            chat.appendChild(item);
+            
+            // Если это первое сообщение после заголовка, сбрасываем счетчик
+            if (chat.children.length === 1) {
+                chat.style.counterReset = 'item-counter';
+            }
+            
+            const message = document.createElement('div');
+            message.className = 'message-numbered';
+            message.textContent = text;
+            chat.appendChild(message);
             
             total += price;
             updateTotal();
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function addCalculation(name, priceId, areaId) {
-            const price = +document.getElementById(priceId).value;
-            const area = +document.getElementById(areaId).value;
+        function addGazonMessage(name, priceId, areaId) {
+            const price = parseFloat(document.getElementById(priceId).value);
+            const area = parseFloat(document.getElementById(areaId).value);
             
-            if(price > 0 && area > 0) {
-                const totalPrice = price * area;
-                addService(`${name} (${price} т.р/м² × ${area} м²)`, totalPrice);
-                document.getElementById(priceId).value = '';
-                document.getElementById(areaId).value = '';
+            if (isNaN(price) || price <= 0) {
+                showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
+                return;
             }
-        }
-
-        function addCustom(name, inputId) {
-            const price = +document.getElementById(inputId).value;
-            if(price > 0) {
-                addService(`${name}`, price);
-                document.getElementById(inputId).value = '';
-            }
-        }
-
-        function setDeadline() {
-            const days = prompt('Укажите срок исполнения (например: 3-5 дней):', deadline);
-            if(days) {
-                deadline = days;
-                localStorage.setItem('deadline', days);
-                document.getElementById('notice').textContent = 'Срок сохранён!';
-                document.getElementById('notice').classList.add('show');
-                setTimeout(() => document.getElementById('notice').classList.remove('show'), 2000);
-            }
-        }
-
-        function copyResults() {
-            const items = Array.from(document.querySelectorAll('.message-numbered'))
-                .slice(1)
-                .map((item, i) => `${i + 1}. ${item.textContent}`)
-                .join('\n');
-
-            const text = `РАСЧЁТ:\n${items}\n\nИтого: ${total.toLocaleString('ru-RU')} т.р\nСрок: ${deadline}`;
             
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    document.getElementById('notice').textContent = 'Скопировано!';
-                    document.getElementById('notice').classList.add('show');
-                    setTimeout(() => document.getElementById('notice').classList.remove('show'), 2000);
-                });
+            if (isNaN(area) || area <= 0) {
+                showAlert('Пожалуйста, введите корректную площадь (больше 0)');
+                return;
+            }
+            
+            const totalPrice = price * area;
+            addMessage(`${name} (${price.toLocaleString('ru-RU')} т.р/м² × ${area} м²) - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
+            
+            // Очищаем поля ввода
+            document.getElementById(priceId).value = '';
+            document.getElementById(areaId).value = '';
         }
-
-        function clearAll() {
-            if(confirm('Очистить весь расчёт?')) {
-                document.getElementById('chat').innerHTML = '<div class="message-numbered">Предварительный расчёт:</div>';
+        
+        function addCustomMessage(prefix, inputId) {
+            const input = document.getElementById(inputId);
+            const price = parseInt(input.value);
+            
+            if (isNaN(price) || price <= 0) {
+                showAlert('Пожалуйста, введите корректную сумму (больше 0)');
+                return;
+            }
+            
+            addMessage(prefix + price.toLocaleString('ru-RU') + ' т.р', price);
+            input.value = '';
+        }
+        
+        function updateTotal() {
+            document.getElementById('total').textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' т.р';
+        }
+        
+        function clearChat() {
+            if (confirm('Вы действительно хотите очистить весь расчёт?')) {
+                document.getElementById('chat').innerHTML = '<div class="message">Предварительный расчёт по Вашему запросу:</div>';
                 total = 0;
                 updateTotal();
+                // Сбрасываем счетчик
+                document.getElementById('chat').style.counterReset = 'item-counter';
+                // Скрываем результат срока исполнения
+                document.getElementById('deadlineResult').style.display = 'none';
             }
         }
-
-        function updateTotal() {
-            document.getElementById('total').textContent = `Итого: ${total.toLocaleString('ru-RU')} т.р`;
+        
+        function calculateDeadline() {
+            const daysInput = document.getElementById('daysInput');
+            const days = parseInt(daysInput.value);
+            
+            if (isNaN(days) {
+                showAlert('Пожалуйста, введите корректное количество дней');
+                return;
+            }
+            
+            if (days <= 0) {
+                showAlert('Количество дней должно быть больше 0');
+                return;
+            }
+            
+            const today = new Date();
+            const deadline = new Date(today);
+            deadline.setDate(today.getDate() + days);
+            
+            // Форматируем дату в формате DD.MM.YYYY
+            const day = String(deadline.getDate()).padStart(2, '0');
+            const month = String(deadline.getMonth() + 1).padStart(2, '0');
+            const year = deadline.getFullYear();
+            const formattedDate = `${day}.${month}.${year}`;
+            
+            const resultElement = document.getElementById('deadlineResult');
+            resultElement.textContent = `Срок исполнения: ${formattedDate} (через ${days} ${getDayWord(days)})`;
+            resultElement.style.display = 'block';
+        }
+        
+        function getDayWord(days) {
+            if (days % 100 >= 11 && days % 100 <= 14) {
+                return 'дней';
+            }
+            
+            switch (days % 10) {
+                case 1: return 'день';
+                case 2:
+                case 3:
+                case 4: return 'дня';
+                default: return 'дней';
+            }
+        }
+        
+        function copyChatToClipboard() {
+            const chat = document.getElementById('chat');
+            let textToCopy = '=== Предварительный расчёт по Вашему запросу ===\n\n';
+            
+            // Получаем только нумерованные сообщения
+            const messages = chat.querySelectorAll('.message-numbered');
+            messages.forEach((msg, index) => {
+                // Удаляем нумерацию из текста (она уже есть в before)
+                const messageText = msg.textContent.replace(/^\d+\.\s*/, '');
+                textToCopy += (index + 1) + '. ' + messageText + '\n';
+            });
+            
+            textToCopy += '\n====================\n';
+            textToCopy += document.getElementById('total').textContent + '\n';
+            
+            // Добавляем срок исполнения, если он рассчитан
+            const deadlineResult = document.getElementById('deadlineResult');
+            if (deadlineResult.style.display !== 'none') {
+                textToCopy += deadlineResult.textContent + '\n';
+            }
+            
+            // Создаем временный элемент для копирования
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = 0;
+            textarea.style.left = '-9999px';
+            textarea.setAttribute('readonly', '');
+            document.body.appendChild(textarea);
+            
+            // Выделяем текст
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            
+            try {
+                // Пробуем современный Clipboard API
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy)
+                        .then(() => showCopySuccess())
+                        .catch(() => {
+                            // Если не сработало, используем старый способ
+                            document.execCommand('copy');
+                            showCopySuccess();
+                        });
+                } else {
+                    // Старый способ для старых браузеров
+                    document.execCommand('copy');
+                    showCopySuccess();
+                }
+            } catch (err) {
+                // Если все методы не сработали, предлагаем ручное копирование
+                showCopyManual(textToCopy);
+            } finally {
+                // Удаляем временный элемент
+                document.body.removeChild(textarea);
+            }
+        }
+        
+        function showCopySuccess() {
+            const notice = document.getElementById('copyNotice');
+            notice.textContent = '✅ Расчёт скопирован!';
+            notice.classList.add('show');
+            
+            setTimeout(() => {
+                notice.classList.remove('show');
+            }, 2000);
+        }
+        
+        function showCopyManual(text) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.right = '0';
+            modal.style.bottom = '0';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            modal.style.zIndex = '1000';
+            modal.style.display = 'flex';
+            modal.style.flexDirection = 'column';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.padding = '20px';
+            
+            const content = document.createElement('div');
+            content.style.backgroundColor = 'white';
+            content.style.padding = '20px';
+            content.style.borderRadius = '12px';
+            content.style.maxWidth = '100%';
+            content.style.maxHeight = '80vh';
+            content.style.overflow = 'auto';
+            content.style.width = '100%';
+            
+            const title = document.createElement('h3');
+            title.textContent = 'Скопируйте текст расчёта:';
+            title.style.marginTop = '0';
+            title.style.marginBottom = '15px';
+            content.appendChild(title);
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.width = '100%';
+            textarea.style.minHeight = '150px';
+            textarea.style.marginBottom = '15px';
+            textarea.style.padding = '12px';
+            textarea.style.border = '1px solid #d1d1d6';
+            textarea.style.borderRadius = '8px';
+            textarea.style.fontFamily = 'inherit';
+            textarea.style.fontSize = '0.95rem';
+            content.appendChild(textarea);
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'Закрыть';
+            closeBtn.style.padding = '12px 20px';
+            closeBtn.style.backgroundColor = '#007aff';
+            closeBtn.style.color = 'white';
+            closeBtn.style.border = 'none';
+            closeBtn.style.borderRadius = '10px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.fontWeight = '500';
+            closeBtn.style.width = '100%';
+            closeBtn.onclick = () => document.body.removeChild(modal);
+            content.appendChild(closeBtn);
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            // Автоматически выделяем текст для копирования
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+        }
+        
+        function showAlert(message) {
+            alert(message);
         }
     </script>
 </body>
