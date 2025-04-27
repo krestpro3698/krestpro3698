@@ -211,6 +211,10 @@ button:hover {
                 order: 2;
                 height: 500px;
             }
+            .execution-btn {
+        background-color: #ff9500;
+        margin-top: 10px;
+    }
         }
     </style>
 </head>
@@ -330,9 +334,10 @@ button:hover {
     </div>
     
     <div class="action-buttons">
-        <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
-        <button class="copy-btn" onclick="copyChatToClipboard()">Копировать расчёт</button>
-    </div>
+    <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
+    <button class="copy-btn" onclick="copyChatToClipboard()">Копировать расчёт</button>
+    <button class="execution-btn" onclick="setExecutionDays()">Срок исполнения</button>
+</div>
     
     <div class="copy-notice" id="copyNotice"></div>
     
@@ -363,58 +368,51 @@ button:hover {
             document.getElementById('frezaArea').value = '';
         }
 
+function setExecutionDays() {
+    const days = prompt("Укажите срок исполнения работ (в днях):", "3-5");
+    if (days) {
+        // Можно сохранить в localStorage или просто использовать при копировании
+        localStorage.setItem('executionDays', days);
+        alert('Срок исполнения установлен: ' + days + ' дней');
+    }
+}
+        
 function copyChatToClipboard() {
         const chat = document.getElementById('chat');
-        let textToCopy = 'Предварительный расчёт по Вашему запросу:\n\n';
+        let textToCopy = 'Предварительный расчёт по Вашему запросу\n\n';
         
         // Получаем только нумерованные сообщения
         const messages = chat.querySelectorAll('.message-numbered');
         messages.forEach((msg, index) => {
             // Удаляем нумерацию из текста (она уже есть в before)
-            const messageText = msg.textContent.replace(/^\d+\.\s*/, '');
-            textToCopy += (index + 1) + '. ' + messageText.trim() + '\n';
+            const messageText = msg.textContent.replace(/^\d+\.\s*/, '').trim();
+            textToCopy += (index + 1) + '. ' + messageText + '\n';
         });
-        
-        // Добавляем срок исполнения
-        const executionTime = prompt("Укажите срок исполнения работ (например: 3-5 дней, или конкретные даты):", "3-5 дней");
         
         textToCopy += '\n====================\n';
         textToCopy += document.getElementById('total').textContent + '\n';
-        textToCopy += 'Срок исполнения работ: ' + (executionTime || "3-5 дней");
+        
+        // Добавляем кнопку для ввода срока исполнения
+        const days = prompt("Укажите срок исполнения работ (в днях):", "3-5");
+        if (days) {
+            textToCopy += 'Срок исполнения: ' + days + ' дней';
+        } else {
+            textToCopy += 'Срок исполнения: 3-5 дней';
+        }
         
         // Создаем временный элемент для копирования
         const textarea = document.createElement('textarea');
         textarea.value = textToCopy;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = 0;
-        textarea.style.left = '-9999px';
-        textarea.setAttribute('readonly', '');
         document.body.appendChild(textarea);
-        
-        // Выделяем текст
         textarea.select();
-        textarea.setSelectionRange(0, 99999);
         
         try {
-            // Пробуем современный Clipboard API
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => showCopySuccess())
-                    .catch(() => {
-                        // Если не сработало, используем старый способ
-                        document.execCommand('copy');
-                        showCopySuccess();
-                    });
-            } else {
-                // Старый способ для старых браузеров
-                document.execCommand('copy');
-                showCopySuccess();
-            }
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => showCopySuccess())
+                .catch(() => document.execCommand('copy'));
         } catch (err) {
-            // Если все методы не сработали, предлагаем ручное копирование
-            showCopyManual(textToCopy);
+            document.execCommand('copy');
         } finally {
-            // Удаляем временный элемент
             document.body.removeChild(textarea);
         }
     }
