@@ -164,49 +164,100 @@
     
     <div class="container">
         <div class="buttons-section">
-            <!-- Техника -->
+          <!-- Техника -->
             <div class="button-group">
                 <h3>Техника</h3>
-                <button onclick="addService('Трактор (7ч работы + 1ч подачи)', 32000)">Трактор - 32.000 т.р</button>
-                <button onclick="addService('Мини-трактор (7ч работы + 1ч подачи)', 35000)">Мини-трактор - 35.000 т.р</button>
-                <button onclick="addService('Гидромолот (7ч работы + 1ч подачи)', 35000)">Гидромолот - 35.000 т.р</button>
-                <button onclick="addService('Чипер+оператор (7ч работы + 1ч подачи)', 45000)">Чипер+оператор - 45.000 т.р</button>
+                <button onclick="addMessage('Трактор смена 7 часов работы + 1 час подачи - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
+                <button onclick="addMessage('Мини-трактор смена7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Мини-трактор - 35.000 т.р</button>
+                <button onclick="addMessage('Гидромолот смена 7 часов работы + 1 час подачи- 35.000 т.р', 35000)">Гидромолот смена - 35.000 т.р</button>
+                <button onclick="addMessage('Чипер+оператор смена  7 часов работы + 1 час подачи- 45.000 т.р', 45000)">Чипер+оператор смена - 45.000 т.р</button>
             </div>
-
-            <!-- Контейнеры -->
+ <!-- Контейнеры -->
             <div class="button-group">
                 <h3>Контейнеры</h3>
-                <button onclick="addService('Контейнер 27м³', 35000)">27м³ - 35.000 т.р</button>
-                <button onclick="addService('Контейнер 20м³', 25000)">20м³ - 25.000 т.р</button>
-                <button onclick="addService('Контейнер 8м³', 15000)">8м³ - 15.000 т.р</button>
+                <button onclick="addMessage('Контейнер 27м3 - 35.000 т.р', 35000)">Контейнер 27м3 - 35.000 т.р</button>
+                <button onclick="addMessage('Контейнер 20м3 - 25.000 т.р', 25000)">Контейнер 20м3 - 25.000 т.р</button>
+                <button onclick="addMessage('Контейнер 8м3 - 15.000 т.р', 15000)">Контейнер 8м3 - 15.000 т.р</button>
                 <div class="custom-price">
-                    <input type="number" id="containerPrice" placeholder="Сумма в т.р">
-                    <button onclick="addCustom('Контейнер с погрузкой', 'containerPrice')">Добавить</button>
+                    <input type="number" id="containerPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Контейнер с погрузкой - ', 'containerPrice')">Контейнер с погрузкой</button>
                 </div>
             </div>
 
-            <!-- Газоны -->
+         <!-- Работы по газонам -->
             <div class="button-group">
-                <h3>Газоны</h3>
+                <h3>Работы по газонам</h3>
                 <div class="custom-price">
-                    <input type="number" id="posevPrice" placeholder="Цена за м²">
-                    <input type="number" id="posevArea" placeholder="Площадь м²">
-                    <button onclick="addCalculation('Посевной газон', 'posevPrice', 'posevArea')">Добавить</button>
+                    <input type="number" id="containerPrice2" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Расчистка участка под грабли/такелажные работы - ', 'containerPrice2')">Расчистка участка под грабли/такелажные работы</button>
                 </div>
-                <div class="custom-price">
-                    <input type="number" id="rulonPrice" placeholder="Цена за м²">
-                    <input type="number" id="rulonArea" placeholder="Площадь м²">
-                    <button onclick="addCalculation('Рулонный газон', 'rulonPrice', 'rulonArea')">Добавить</button>
+                
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="frezaPrice" placeholder="Цена за сотку (т.р)" inputmode="decimal" style="flex: 1;">
+                        <input type="number" id="frezaArea" placeholder="Кол-во соток" inputmode="decimal" style="flex: 1;">
+                    </div>
+                    <button onclick="addFrezaMessage()">Фрезеровка мини-трактором + ручное выравнивание</button>
+                </div>
+                
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
+                        <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+                    </div>
+                    <button onclick="addGazonMessage('Посевной газон', 'posevPrice', 'posevArea')">Посевной газон</button>
+                </div>
+                
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="rulonPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
+                        <input type="number" id="rulonArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+                    </div>
+                    <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
                 </div>
             </div>
 
-            <!-- Другие услуги -->
+             <!-- Материалы -->
+            <div class="button-group">
+                <h3>Материалы</h3>
+                <button onclick="addMessage('Песок 10м3 - 15.000 т.р', 15000)">Песок 10м3 - 15.000 т.р</button>
+                <button onclick="addMessage('Щебень 10м3 - 33.000 т.р', 33000)">Щебень 10м3 - 33.000 т.р</button>
+                <button onclick="addMessage('Планировочный грунт 10м3 - 20.000 т.р', 20000)">Планировочный грунт 10м3 - 20.000 т.р</button>
+                <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт 10м3 - 35.000 т.р</button>
+            </div>
+            
+         <!-- Другие услуги -->
             <div class="button-group">
                 <h3>Другие услуги</h3>
-                <button onclick="addService('Фрезеровка пней', 8000)">Фрезеровка пней - 8.000 т.р</button>
+               
                 <div class="custom-price">
-                    <input type="number" id="customPrice" placeholder="Сумма в т.р">
-                    <button onclick="addCustom('Другая услуга', 'customPrice')">Добавить</button>
+                    <input type="number" id="Frezaprice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Фрезеровка пней - ', 'Frezaprice')">Фрезеровка пней</button>
+                </div>
+
+                <div class="custom-price">
+                    <input type="number" id="takelazhPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhPrice')">Такелажные работы</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="spilPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Спил/распил - ', 'spilPrice')">Спил/распил</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="listvaPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Сбор листвы - ', 'listvaPrice')">Сбор листвы</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="pokosPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Покос травы - ', 'pokosPrice')">Покос травы</button>
+                </div>
+                
+                <div class="custom-price">
+                    <input type="number" id="brigadirPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <button onclick="addCustomMessage('Бригадир смена - ', 'brigadirPrice')">Бригадир смена</button>
                 </div>
             </div>
         </div>
