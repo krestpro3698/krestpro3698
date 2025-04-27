@@ -215,6 +215,21 @@ button:hover {
         background-color: #ff9500;
         margin-top: 10px;
     }
+             /* Узкая плашка уведомления */
+    .copy-notice {
+        width: auto;
+        max-width: 80%;
+        padding: 10px 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Кнопка срока исполнения */
+    .execution-btn {
+        background-color: #ff9500;
+        flex: 1;
+    }
         }
     </style>
 </head>
@@ -333,10 +348,10 @@ button:hover {
         Итого: 0 т.р
     </div>
     
-    <div class="action-buttons">
+  <div class="action-buttons">
     <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
-    <button class="copy-btn" onclick="copyChatToClipboard()">Копировать расчёт</button>
-    <button class="execution-btn" onclick="setExecutionDays()">Срок исполнения</button>
+    <button class="execution-btn" onclick="setExecutionDays()">Срок</button>
+    <button class="copy-btn" onclick="copyChatToClipboard()">Копировать</button>
 </div>
     
     <div class="copy-notice" id="copyNotice"></div>
@@ -381,41 +396,41 @@ function copyChatToClipboard() {
         const chat = document.getElementById('chat');
         let textToCopy = 'Предварительный расчёт по Вашему запросу\n\n';
         
-        // Получаем только нумерованные сообщения
+        // Получаем нумерованные сообщения без лишних отступов
         const messages = chat.querySelectorAll('.message-numbered');
         messages.forEach((msg, index) => {
-            // Удаляем нумерацию из текста (она уже есть в before)
-            const messageText = msg.textContent.replace(/^\d+\.\s*/, '').trim();
-            textToCopy += (index + 1) + '. ' + messageText + '\n';
+            textToCopy += `${index + 1}. ${msg.textContent.replace(/^\d+\.\s*/, '').trim()}\n`;
         });
         
+        // Добавляем срок исполнения
+        const days = localStorage.getItem('executionDays') || '3-5';
         textToCopy += '\n====================\n';
-        textToCopy += document.getElementById('total').textContent + '\n';
+        textToCopy += `${document.getElementById('total').textContent}\n`;
+        textToCopy += `Срок исполнения: ${days} дней`;
         
-        // Добавляем кнопку для ввода срока исполнения
-        const days = prompt("Укажите срок исполнения работ (в днях):", "3-5");
+        // Копируем в буфер
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => showCopySuccess())
+            .catch(() => document.execCommand('copy'));
+    }
+
+          // Функция установки срока исполнения
+    function setExecutionDays() {
+        const days = prompt("Укажите срок исполнения (например: 3-5):", "3-5");
         if (days) {
-            textToCopy += 'Срок исполнения: ' + days + ' дней';
-        } else {
-            textToCopy += 'Срок исполнения: 3-5 дней';
-        }
-        
-        // Создаем временный элемент для копирования
-        const textarea = document.createElement('textarea');
-        textarea.value = textToCopy;
-        document.body.appendChild(textarea);
-        textarea.select();
-        
-        try {
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => showCopySuccess())
-                .catch(() => document.execCommand('copy'));
-        } catch (err) {
-            document.execCommand('copy');
-        } finally {
-            document.body.removeChild(textarea);
+            localStorage.setItem('executionDays', days);
+            showAlert(`Срок установлен: ${days} дней`);
         }
     }
+    
+    // Упрощенное уведомление
+    function showAlert(msg) {
+        const notice = document.getElementById('copyNotice');
+        notice.textContent = msg;
+        notice.classList.add('show');
+        setTimeout(() => notice.classList.remove('show'), 2000);
+    }
+    
         
         function addMessage(text, price) {
             const chat = document.getElementById('chat');
