@@ -169,45 +169,6 @@
             opacity: 1;
         }
         
-        /* Новые стили для блока срока исполнения */
-        .deadline-section {
-            background-color: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-top: 15px;
-        }
-        .deadline-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .deadline-controls label {
-            font-weight: 500;
-            color: #2c3e50;
-            white-space: nowrap;
-        }
-        .deadline-controls input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #d1d1d6;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            min-width: 0;
-        }
-        .deadline-result {
-            margin-top: 10px;
-            padding: 12px;
-            background-color: #f0f6ff;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            text-align: center;
-            display: none;
-        }
-        .deadline-btn {
-            background-color: #5856d6;
-        }
-        
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
@@ -335,16 +296,6 @@
         </div>
     </div>
     
-    <!-- Блок срока исполнения -->
-    <div class="deadline-section">
-        <div class="deadline-controls">
-            <label for="daysInput">Количество дней:</label>
-            <input type="number" id="daysInput" placeholder="Введите количество дней" min="1" value="1">
-            <button class="deadline-btn" onclick="calculateDeadline()">Рассчитать срок исполнения</button>
-        </div>
-        <div class="deadline-result" id="deadlineResult"></div>
-    </div>
-    
     <div class="total" id="total">
         Итого: 0 т.р
     </div>
@@ -447,51 +398,6 @@
                 updateTotal();
                 // Сбрасываем счетчик
                 document.getElementById('chat').style.counterReset = 'item-counter';
-                // Скрываем результат срока исполнения
-                document.getElementById('deadlineResult').style.display = 'none';
-            }
-        }
-        
-        function calculateDeadline() {
-            const daysInput = document.getElementById('daysInput');
-            const days = parseInt(daysInput.value);
-            
-            if (isNaN(days) {
-                showAlert('Пожалуйста, введите корректное количество дней');
-                return;
-            }
-            
-            if (days <= 0) {
-                showAlert('Количество дней должно быть больше 0');
-                return;
-            }
-            
-            const today = new Date();
-            const deadline = new Date(today);
-            deadline.setDate(today.getDate() + days);
-            
-            // Форматируем дату в формате DD.MM.YYYY
-            const day = String(deadline.getDate()).padStart(2, '0');
-            const month = String(deadline.getMonth() + 1).padStart(2, '0');
-            const year = deadline.getFullYear();
-            const formattedDate = `${day}.${month}.${year}`;
-            
-            const resultElement = document.getElementById('deadlineResult');
-            resultElement.textContent = `Срок исполнения: ${formattedDate} (через ${days} ${getDayWord(days)})`;
-            resultElement.style.display = 'block';
-        }
-        
-        function getDayWord(days) {
-            if (days % 100 >= 11 && days % 100 <= 14) {
-                return 'дней';
-            }
-            
-            switch (days % 10) {
-                case 1: return 'день';
-                case 2:
-                case 3:
-                case 4: return 'дня';
-                default: return 'дней';
             }
         }
         
@@ -508,13 +414,7 @@
             });
             
             textToCopy += '\n====================\n';
-            textToCopy += document.getElementById('total').textContent + '\n';
-            
-            // Добавляем срок исполнения, если он рассчитан
-            const deadlineResult = document.getElementById('deadlineResult');
-            if (deadlineResult.style.display !== 'none') {
-                textToCopy += deadlineResult.textContent + '\n';
-            }
+            textToCopy += document.getElementById('total').textContent;
             
             // Создаем временный элемент для копирования
             const textarea = document.createElement('textarea');
