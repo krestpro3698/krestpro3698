@@ -7,46 +7,19 @@
     <title>Калькулятор услуг</title>
     <style>
         * {
-            @media (min-width: 768px) {
-    .container {
-        flex-direction: row;
-    }
-    .buttons-section {
-        flex: 1;
-        order: 1; /* Кнопки слева */
-    }
-    .chat-section {
-        flex: 1;
-        order: 2; /* Чат справа */
-        height: 500px;
-    }
-}
-  
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.message-numbered {
-    animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-        }
-        body
-        {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             padding: 15px;
             background-color: #f5f5f7;
             line-height: 1.5;
-            -webkit-text-size-adjust: 100%;
         }
+
         h1 {
             color: #2c3e50;
             text-align: center;
@@ -54,6 +27,7 @@ button:hover {
             margin: 0 0 15px 0;
             font-weight: 600;
         }
+
         .container {
             display: flex;
             flex-direction: column;
@@ -61,21 +35,22 @@ button:hover {
             max-width: 1000px;
             margin: 0 auto;
         }
+
         .buttons-section {
             order: 1;
         }
+
         .chat-section {
             order: 2;
             border: 1px solid #d1d1d6;
             padding: 15px;
             height: 300px;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            white-space: pre-wrap;
         }
+
         .button-group {
             margin-bottom: 15px;
             background-color: white;
@@ -83,14 +58,15 @@ button:hover {
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
+
         .button-group h3 {
             margin: 0 0 10px 0;
             color: #2c3e50;
             border-bottom: 1px solid #f0f0f0;
             padding-bottom: 8px;
             font-size: 1.1rem;
-            font-weight: 500;
         }
+
         button {
             display: block;
             width: 100%;
@@ -103,82 +79,63 @@ button:hover {
             cursor: pointer;
             font-size: 0.95rem;
             transition: all 0.2s;
-            font-weight: 500;
-            touch-action: manipulation;
         }
-        button:active {
-            transform: scale(0.98);
-            opacity: 0.9;
-        }
+
         .custom-price {
             display: flex;
             margin-bottom: 8px;
             gap: 8px;
         }
+
         .custom-price input {
             flex: 1;
             padding: 12px;
             border: 1px solid #d1d1d6;
             border-radius: 10px;
             font-size: 0.95rem;
-            min-width: 0;
-            -webkit-appearance: none;
         }
+
         .custom-price button {
-            width: auto;
             padding: 12px 15px;
             background-color: #34c759;
             white-space: nowrap;
         }
-        .message {
-            margin-bottom: 10px;
-            padding: 12px;
-            background-color: #f0f6ff;
-            border-radius: 10px;
-            border-left: 4px solid #007aff;
-            font-size: 0.95rem;
-            word-break: break-word;
-        }
+
         .message-numbered {
             margin-bottom: 10px;
             padding: 12px;
             background-color: #f0f6ff;
             border-radius: 10px;
             border-left: 4px solid #007aff;
-            font-size: 0.95rem;
-            word-break: break-word;
             counter-increment: item-counter;
         }
+
         .message-numbered::before {
             content: counter(item-counter) ".";
             margin-right: 8px;
             font-weight: bold;
             color: #007aff;
         }
+
         .total {
             font-weight: 600;
             margin: 15px 0;
             padding: 15px;
             background-color: white;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            font-size: 1.1rem;
-            color: #2c3e50;
             text-align: center;
         }
+
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
-        .clear-btn {
-            background-color: #ff3b30;
-            flex: 1;
-        }
-        .copy-btn {
-            background-color: #af52de;
-            flex: 1;
-        }
+
+        .clear-btn { background-color: #ff3b30; }
+        .copy-btn { background-color: #af52de; }
+        .execution-btn { background-color: #ff9500; }
+
         .copy-notice {
             position: fixed;
             bottom: 20px;
@@ -186,50 +143,19 @@ button:hover {
             transform: translateX(-50%);
             background-color: #007aff;
             color: white;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s;
+            max-width: 80%;
         }
-        .copy-notice.show {
-            opacity: 1;
-        }
-        
+
+        .copy-notice.show { opacity: 1; }
+
         @media (min-width: 768px) {
-            .container {
-                flex-direction: row;
-            }
-            .buttons-section {
-                flex: 1;
-                order: 1;
-            }
-            .chat-section {
-                flex: 1;
-                order: 2;
-                height: 500px;
-            }
-            .execution-btn {
-        background-color: #ff9500;
-        margin-top: 10px;
-    }
-             /* Узкая плашка уведомления */
-    .copy-notice {
-        width: auto;
-        max-width: 80%;
-        padding: 10px 20px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    /* Кнопка срока исполнения */
-    .execution-btn {
-        background-color: #ff9500;
-        flex: 1;
-    }
+            .container { flex-direction: row; }
+            .chat-section { height: 500px; }
+            .buttons-section, .chat-section { flex: 1; }
         }
     </style>
 </head>
@@ -237,488 +163,143 @@ button:hover {
     <h1>Калькулятор услуг</h1>
     
     <div class="container">
-        <!-- Секция с кнопками слева -->
         <div class="buttons-section">
             <!-- Техника -->
             <div class="button-group">
                 <h3>Техника</h3>
-                <button onclick="addMessage('Трактор смена 7 часов работы + 1 час подачи - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
-                <button onclick="addMessage('Мини-трактор смена7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Мини-трактор - 35.000 т.р</button>
-                <button onclick="addMessage('Гидромолот смена 7 часов работы + 1 час подачи- 35.000 т.р', 35000)">Гидромолот смена - 35.000 т.р</button>
-                <button onclick="addMessage('Чипер+оператор смена  7 часов работы + 1 час подачи- 45.000 т.р', 45000)">Чипер+оператор смена - 45.000 т.р</button>
+                <button onclick="addService('Трактор (7ч работы + 1ч подачи)', 32000)">Трактор - 32.000 т.р</button>
+                <button onclick="addService('Мини-трактор (7ч работы + 1ч подачи)', 35000)">Мини-трактор - 35.000 т.р</button>
+                <button onclick="addService('Гидромолот (7ч работы + 1ч подачи)', 35000)">Гидромолот - 35.000 т.р</button>
+                <button onclick="addService('Чипер+оператор (7ч работы + 1ч подачи)', 45000)">Чипер+оператор - 45.000 т.р</button>
             </div>
-            
+
             <!-- Контейнеры -->
             <div class="button-group">
                 <h3>Контейнеры</h3>
-                <button onclick="addMessage('Контейнер 27м3 - 35.000 т.р', 35000)">Контейнер 27м3 - 35.000 т.р</button>
-                <button onclick="addMessage('Контейнер 20м3 - 25.000 т.р', 25000)">Контейнер 20м3 - 25.000 т.р</button>
-                <button onclick="addMessage('Контейнер 8м3 - 15.000 т.р', 15000)">Контейнер 8м3 - 15.000 т.р</button>
+                <button onclick="addService('Контейнер 27м³', 35000)">27м³ - 35.000 т.р</button>
+                <button onclick="addService('Контейнер 20м³', 25000)">20м³ - 25.000 т.р</button>
+                <button onclick="addService('Контейнер 8м³', 15000)">8м³ - 15.000 т.р</button>
                 <div class="custom-price">
-                    <input type="number" id="containerPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Контейнер с погрузкой - ', 'containerPrice')">Контейнер с погрузкой</button>
+                    <input type="number" id="containerPrice" placeholder="Сумма в т.р">
+                    <button onclick="addCustom('Контейнер с погрузкой', 'containerPrice')">Добавить</button>
                 </div>
             </div>
-            
-            <!-- Работы по газонам -->
+
+            <!-- Газоны -->
             <div class="button-group">
-                <h3>Работы по газонам</h3>
+                <h3>Газоны</h3>
                 <div class="custom-price">
-                    <input type="number" id="containerPrice2" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Расчистка участка под грабли/такелажные работы - ', 'containerPrice2')">Расчистка участка под грабли/такелажные работы</button>
+                    <input type="number" id="posevPrice" placeholder="Цена за м²">
+                    <input type="number" id="posevArea" placeholder="Площадь м²">
+                    <button onclick="addCalculation('Посевной газон', 'posevPrice', 'posevArea')">Добавить</button>
                 </div>
-                
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="frezaPrice" placeholder="Цена за сотку (т.р)" inputmode="decimal" style="flex: 1;">
-                        <input type="number" id="frezaArea" placeholder="Кол-во соток" inputmode="decimal" style="flex: 1;">
-                    </div>
-                    <button onclick="addFrezaMessage()">Фрезеровка мини-трактором + ручное выравнивание</button>
-                </div>
-                
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
-                        <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
-                    </div>
-                    <button onclick="addGazonMessage('Посевной газон', 'posevPrice', 'posevArea')">Посевной газон</button>
-                </div>
-                
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="rulonPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
-                        <input type="number" id="rulonArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
-                    </div>
-                    <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
+                <div class="custom-price">
+                    <input type="number" id="rulonPrice" placeholder="Цена за м²">
+                    <input type="number" id="rulonArea" placeholder="Площадь м²">
+                    <button onclick="addCalculation('Рулонный газон', 'rulonPrice', 'rulonArea')">Добавить</button>
                 </div>
             </div>
-            
-            <!-- Материалы -->
-            <div class="button-group">
-                <h3>Материалы</h3>
-                <button onclick="addMessage('Песок 10м3 - 15.000 т.р', 15000)">Песок 10м3 - 15.000 т.р</button>
-                <button onclick="addMessage('Щебень 10м3 - 33.000 т.р', 33000)">Щебень 10м3 - 33.000 т.р</button>
-                <button onclick="addMessage('Планировочный грунт 10м3 - 20.000 т.р', 20000)">Планировочный грунт 10м3 - 20.000 т.р</button>
-                <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт 10м3 - 35.000 т.р</button>
-            </div>
-            
+
             <!-- Другие услуги -->
             <div class="button-group">
                 <h3>Другие услуги</h3>
-               
+                <button onclick="addService('Фрезеровка пней', 8000)">Фрезеровка пней - 8.000 т.р</button>
                 <div class="custom-price">
-                    <input type="number" id="Frezaprice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Фрезеровка пней - ', 'Frezaprice')">Фрезеровка пней</button>
-                </div>
-
-                <div class="custom-price">
-                    <input type="number" id="takelazhPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhPrice')">Такелажные работы</button>
-                </div>
-                
-                <div class="custom-price">
-                    <input type="number" id="spilPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Спил/распил - ', 'spilPrice')">Спил/распил</button>
-                </div>
-                
-                <div class="custom-price">
-                    <input type="number" id="listvaPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Сбор листвы - ', 'listvaPrice')">Сбор листвы</button>
-                </div>
-                
-                <div class="custom-price">
-                    <input type="number" id="pokosPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Покос травы - ', 'pokosPrice')">Покос травы</button>
-                </div>
-                
-                <div class="custom-price">
-                    <input type="number" id="brigadirPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Бригадир смена - ', 'brigadirPrice')">Бригадир смена</button>
+                    <input type="number" id="customPrice" placeholder="Сумма в т.р">
+                    <button onclick="addCustom('Другая услуга', 'customPrice')">Добавить</button>
                 </div>
             </div>
         </div>
-        
-        <!-- Секция чата справа -->
+
         <div class="chat-section" id="chat">
-            <div class="message">Предварительный расчёт по Вашему запросу:</div>
+            <div class="message-numbered">Предварительный расчёт:</div>
         </div>
     </div>
-    
-    <div class="total" id="total">
-        Итого: 0 т.р
+
+    <div class="total" id="total">Итого: 0 т.р</div>
+
+    <div class="action-buttons">
+        <button class="clear-btn" onclick="clearAll()">Очистить</button>
+        <button class="execution-btn" onclick="setDeadline()">Срок</button>
+        <button class="copy-btn" onclick="copyResults()">Копировать</button>
     </div>
-    
-  <div class="action-buttons">
-        <button class="clear-btn" onclick="clearChat()">Очистить всё</button>
-        <button class="execution-btn" onclick="setExecutionDays()">Срок</button>
-        <button class="copy-btn" onclick="copyChatToClipboard()">Копировать</button>
-    </div>
-    
-    <div class="copy-notice" id="copyNotice"></div>
-    
+
+    <div class="copy-notice" id="notice"></div>
+
     <script>
         let total = 0;
-     let executionDays = localStorage.getItem('executionDays') || '3-5 дней';
+        let deadline = localStorage.getItem('deadline') || '3-5 дней';
 
-
-        function setExecutionDays() {
-            const days = prompt("Укажите срок исполнения работ:", executionDays);
-            if (days) {
-                executionDays = days;
-                localStorage.setItem('executionDays', days);
-                updateExecutionInChat();
-            }
-        }
-
-        function updateExecutionInChat() {
-            let existing = document.getElementById('executionMessage');
-            if (!existing) {
-                existing = document.createElement('div');
-                existing.id = 'executionMessage';
-                document.getElementById('chat').appendChild(existing);
-            }
-            existing.className = 'message-numbered';
-            existing.textContent = `Срок исполнения работ: ${executionDays}`;
-        }
-
-        function copyChatToClipboard() {
+        function addService(name, price) {
             const chat = document.getElementById('chat');
-            let textToCopy = 'Предварительный расчёт по Вашему запросу:\n\n';
-            
-            // Собираем все сообщения
-            const messages = chat.querySelectorAll('.message-numbered');
-            messages.forEach((msg, index) => {
-                textToCopy += `${index + 1}. ${msg.textContent.replace(/^\d+\.\s*/, '').trim()}\n`;
-            });
-
-            textToCopy += '\n====================\n';
-            textToCopy += `${document.getElementById('total').textContent}\n`;
-            textToCopy += `Срок исполнения: ${executionDays}`;
-
-            // Копирование в буфер
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => showCopySuccess())
-                .catch(() => document.execCommand('copy'));
-        }
-        function addFrezaMessage() {
-            const price = parseFloat(document.getElementById('frezaPrice').value);
-            const area = parseFloat(document.getElementById('frezaArea').value);
-            
-            if (isNaN(price) || price <= 0) {
-                showAlert('Введите корректную цену за сотку (больше 0)');
-                return;
-            }
-            
-            if (isNaN(area) || area <= 0) {
-                showAlert('Введите корректное количество соток (больше 0)');
-                return;
-            }
-            
-            const totalPrice = price * area;
-            const description = `Фрезеровка мини-трактором + ручное выравнивание (${price.toLocaleString('ru-RU')} т.р/сотка × ${area} сот.)`;
-            
-            addMessage(`${description} - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
-            
-            // Очищаем поля
-            document.getElementById('frezaPrice').value = '';
-            document.getElementById('frezaArea').value = '';
-        }
-
-function setExecutionDays() {
-    const days = prompt("Укажите срок исполнения работ (в днях):", "3-5");
-    if (days) {
-        // Можно сохранить в localStorage или просто использовать при копировании
-        localStorage.setItem('executionDays', days);
-        alert('Срок исполнения установлен: ' + days + ' дней');
-    }
-}
-        
-function copyChatToClipboard() {
-        const chat = document.getElementById('chat');
-        let textToCopy = 'Предварительный расчёт по Вашему запросу\n\n';
-        
-        // Получаем нумерованные сообщения без лишних отступов
-        const messages = chat.querySelectorAll('.message-numbered');
-        messages.forEach((msg, index) => {
-            textToCopy += `${index + 1}. ${msg.textContent.replace(/^\d+\.\s*/, '').trim()}\n`;
-        });
-        
-        // Добавляем срок исполнения
-        const days = localStorage.getItem('executionDays') || '3-5';
-        textToCopy += '\n====================\n';
-        textToCopy += `${document.getElementById('total').textContent}\n`;
-        textToCopy += `Срок исполнения: ${days} дней`;
-        
-        // Копируем в буфер
-        navigator.clipboard.writeText(textToCopy)
-            .then(() => showCopySuccess())
-            .catch(() => document.execCommand('copy'));
-    }
-
-          // Функция установки срока исполнения
-    function setExecutionDays() {
-        const days = prompt("Укажите срок исполнения (например: 3-5):", "3-5");
-        if (days) {
-            localStorage.setItem('executionDays', days);
-            showAlert(`Срок установлен: ${days} дней`);
-        }
-    }
-    
-    // Упрощенное уведомление
-    function showAlert(msg) {
-        const notice = document.getElementById('copyNotice');
-        notice.textContent = msg;
-        notice.classList.add('show');
-        setTimeout(() => notice.classList.remove('show'), 2000);
-    }
-    
-        
-        function addMessage(text, price) {
-            const chat = document.getElementById('chat');
-            
-            // Если это первое сообщение после заголовка, сбрасываем счетчик
-            if (chat.children.length === 1) {
-                chat.style.counterReset = 'item-counter';
-            }
-            
-            const message = document.createElement('div');
-            message.className = 'message-numbered';
-            message.textContent = text;
-            chat.appendChild(message);
+            const item = document.createElement('div');
+            item.className = 'message-numbered';
+            item.textContent = `${name} - ${price.toLocaleString('ru-RU')} т.р`;
+            chat.appendChild(item);
             
             total += price;
             updateTotal();
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function addGazonMessage(name, priceId, areaId) {
-            const price = parseFloat(document.getElementById(priceId).value);
-            const area = parseFloat(document.getElementById(areaId).value);
+        function addCalculation(name, priceId, areaId) {
+            const price = +document.getElementById(priceId).value;
+            const area = +document.getElementById(areaId).value;
             
-            if (isNaN(price) || price <= 0) {
-                showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
-                return;
+            if(price > 0 && area > 0) {
+                const totalPrice = price * area;
+                addService(`${name} (${price} т.р/м² × ${area} м²)`, totalPrice);
+                document.getElementById(priceId).value = '';
+                document.getElementById(areaId).value = '';
             }
-            
-            if (isNaN(area) || area <= 0) {
-                showAlert('Пожалуйста, введите корректную площадь (больше 0)');
-                return;
+        }
+
+        function addCustom(name, inputId) {
+            const price = +document.getElementById(inputId).value;
+            if(price > 0) {
+                addService(`${name}`, price);
+                document.getElementById(inputId).value = '';
             }
-            
-            const totalPrice = price * area;
-            addMessage(`${name} (${price.toLocaleString('ru-RU')} т.р/м² × ${area} м²) - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
-            
-            // Очищаем поля ввода
-            document.getElementById(priceId).value = '';
-            document.getElementById(areaId).value = '';
         }
-        
-        function addCustomMessage(prefix, inputId) {
-            const input = document.getElementById(inputId);
-            const price = parseInt(input.value);
-            
-            if (isNaN(price) || price <= 0) {
-                showAlert('Пожалуйста, введите корректную сумму (больше 0)');
-                return;
+
+        function setDeadline() {
+            const days = prompt('Укажите срок исполнения (например: 3-5 дней):', deadline);
+            if(days) {
+                deadline = days;
+                localStorage.setItem('deadline', days);
+                document.getElementById('notice').textContent = 'Срок сохранён!';
+                document.getElementById('notice').classList.add('show');
+                setTimeout(() => document.getElementById('notice').classList.remove('show'), 2000);
             }
+        }
+
+        function copyResults() {
+            const items = Array.from(document.querySelectorAll('.message-numbered'))
+                .slice(1)
+                .map((item, i) => `${i + 1}. ${item.textContent}`)
+                .join('\n');
+
+            const text = `РАСЧЁТ:\n${items}\n\nИтого: ${total.toLocaleString('ru-RU')} т.р\nСрок: ${deadline}`;
             
-            addMessage(prefix + price.toLocaleString('ru-RU') + ' т.р', price);
-            input.value = '';
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    document.getElementById('notice').textContent = 'Скопировано!';
+                    document.getElementById('notice').classList.add('show');
+                    setTimeout(() => document.getElementById('notice').classList.remove('show'), 2000);
+                });
         }
-        
-        function updateTotal() {
-            document.getElementById('total').textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' т.р';
-        }
-        
-        function clearChat() {
-            if (confirm('Вы действительно хотите очистить весь расчёт?')) {
-                document.getElementById('chat').innerHTML = '<div class="message">Предварительный расчёт по Вашему запросу:</div>';
+
+        function clearAll() {
+            if(confirm('Очистить весь расчёт?')) {
+                document.getElementById('chat').innerHTML = '<div class="message-numbered">Предварительный расчёт:</div>';
                 total = 0;
                 updateTotal();
-                // Сбрасываем счетчик
-                document.getElementById('chat').style.counterReset = 'item-counter';
             }
         }
-        
-        function copyChatToClipboard() {
-            const chat = document.getElementById('chat');
-            let textToCopy = 'Предварительный расчёт по Вашему запросу \n\n';
-            
-            // Получаем только нумерованные сообщения
-            const messages = chat.querySelectorAll('.message-numbered');
-            messages.forEach((msg, index) => {
-                // Удаляем нумерацию из текста (она уже есть в before)
-                const messageText = msg.textContent.replace(/^\d+\.\s*/, '');
-                textToCopy += (index + 1) + '. ' + messageText + '\n';
-            });
-            
-            textToCopy += '\n====================\n';
-            textToCopy += document.getElementById('total').textContent;
-            
-            // Создаем временный элемент для копирования
-            const textarea = document.createElement('textarea');
-            textarea.value = textToCopy;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = 0;
-            textarea.style.left = '-9999px';
-            textarea.setAttribute('readonly', '');
-            document.body.appendChild(textarea);
-            
-            // Выделяем текст
-            textarea.select();
-            textarea.setSelectionRange(0, 99999);
-            
-            try {
-                // Пробуем современный Clipboard API
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(textToCopy)
-                        .then(() => showCopySuccess())
-                        .catch(() => {
-                            // Если не сработало, используем старый способ
-                            document.execCommand('copy');
-                            showCopySuccess();
-                        });
-                } else {
-                    // Старый способ для старых браузеров
-                    document.execCommand('copy');
-                    showCopySuccess();
-                }
-            } catch (err) {
-                // Если все методы не сработали, предлагаем ручное копирование
-                showCopyManual(textToCopy);
-            } finally {
-                // Удаляем временный элемент
-                document.body.removeChild(textarea);
-            }
+
+        function updateTotal() {
+            document.getElementById('total').textContent = `Итого: ${total.toLocaleString('ru-RU')} т.р`;
         }
-        
-        function showCopySuccess() {
-            const notice = document.getElementById('copyNotice');
-            notice.textContent = '✅ Расчёт скопирован!';
-            notice.classList.add('show');
-            
-            setTimeout(() => {
-                notice.classList.remove('show');
-            }, 2000);
-        }
-        
-        function showCopyManual(text) {
-            const modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.right = '0';
-            modal.style.bottom = '0';
-            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
-            modal.style.zIndex = '1000';
-            modal.style.display = 'flex';
-            modal.style.flexDirection = 'column';
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
-            modal.style.padding = '20px';
-            
-            const content = document.createElement('div');
-            content.style.backgroundColor = 'white';
-            content.style.padding = '20px';
-            content.style.borderRadius = '12px';
-            content.style.maxWidth = '100%';
-            content.style.maxHeight = '80vh';
-            content.style.overflow = 'auto';
-            content.style.width = '100%';
-            
-            const title = document.createElement('h3');
-            title.textContent = 'Скопируйте текст расчёта:';
-            title.style.marginTop = '0';
-            title.style.marginBottom = '15px';
-            content.appendChild(title);
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.width = '100%';
-            textarea.style.minHeight = '150px';
-            textarea.style.marginBottom = '15px';
-            textarea.style.padding = '12px';
-            textarea.style.border = '1px solid #d1d1d6';
-            textarea.style.borderRadius = '8px';
-            textarea.style.fontFamily = 'inherit';
-            textarea.style.fontSize = '0.95rem';
-            content.appendChild(textarea);
-            
-            const closeBtn = document.createElement('button');
-            closeBtn.textContent = 'Закрыть';
-            closeBtn.style.padding = '12px 20px';
-            closeBtn.style.backgroundColor = '#007aff';
-            closeBtn.style.color = 'white';
-            closeBtn.style.border = 'none';
-            closeBtn.style.borderRadius = '10px';
-            closeBtn.style.cursor = 'pointer';
-            closeBtn.style.fontWeight = '500';
-            closeBtn.style.width = '100%';
-            closeBtn.onclick = () => document.body.removeChild(modal);
-            content.appendChild(closeBtn);
-            
-            modal.appendChild(content);
-            document.body.appendChild(modal);
-            
-            // Автоматически выделяем текст для копирования
-            textarea.select();
-            textarea.setSelectionRange(0, 99999);
-        }
-        
-        function showAlert(message) {
-            alert(message);
-        }
-        // Функции для работы с историей
-let calculationHistory = JSON.parse(localStorage.getItem('calculationHistory')) || [];
-
-function saveToHistory() {
-    const chatContent = document.getElementById('chat').innerHTML;
-    const total = document.getElementById('total').textContent;
-    
-    calculationHistory.push({
-        date: new Date().toLocaleString(),
-        content: chatContent,
-        total: total
-    });
-    
-    localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
-}
-
-function showHistoryModal() {
-    const modal = document.getElementById('historyModal');
-    const list = document.getElementById('historyList');
-    
-    list.innerHTML = calculationHistory.map((item, index) => `
-        <div class="history-item">
-            <p><strong>${item.date}</strong></p>
-            <p>${item.total}</p>
-            <button onclick="loadCalculation(${index})">Загрузить</button>
-            <button onclick="deleteCalculation(${index})" style="background-color:#ff3b30;">Удалить</button>
-        </div>
-    `).join('');
-    
-    modal.style.display = 'block';
-}
-
-function closeHistoryModal() {
-    document.getElementById('historyModal').style.display = 'none';
-}
-
-function loadCalculation(index) {
-    const item = calculationHistory[index];
-    document.getElementById('chat').innerHTML = item.content;
-    document.getElementById('total').textContent = item.total;
-    total = parseInt(item.total.replace(/\D/g,'')) || 0;
-    closeHistoryModal();
-}
-
-function deleteCalculation(index) {
-    calculationHistory.splice(index, 1);
-    localStorage.setItem('calculationHistory', JSON.stringify(calculationHistory));
-    showHistoryModal();
-}
-
-// Обновляем функцию clearChat
     </script>
 </body>
 </html>
