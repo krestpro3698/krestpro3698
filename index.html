@@ -1,10 +1,49 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Калькулятор услуг</title>
+    <title>Калькулятор благоустройства</title>
     <style>
         * {
             box-sizing: border-box;
@@ -85,6 +124,7 @@
             display: flex;
             margin-bottom: 8px;
             gap: 8px;
+            flex-wrap: wrap;
         }
         .custom-price input {
             flex: 1;
@@ -168,7 +208,6 @@
         .copy-notice.show {
             opacity: 1;
         }
-        
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
@@ -186,107 +225,126 @@
     </style>
 </head>
 <body>
-    <h1>Калькулятор услуг</h1>
+    <h1>Калькулятор благоустройства</h1>
     
     <div class="container">
         <!-- Секция с кнопками слева -->
         <div class="buttons-section">
-            <!-- Техника -->
+            <!-- Расчистка участка -->
             <div class="button-group">
-                <h3>Техника</h3>
-                <button onclick="addMessage('Трактор смена 7 часов работы + 1 час подачи - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
-                <button onclick="addMessage('Мини-трактор смена7 часов работы + 1 час подачи - 35.000 т.р', 35000)">Мини-трактор - 35.000 т.р</button>
-                <button onclick="addMessage('Гидромолот смена 7 часов работы + 1 час подачи- 35.000 т.р', 35000)">Гидромолот смена - 35.000 т.р</button>
-                <button onclick="addMessage('Чипер+оператор смена  7 часов работы + 1 час подачи- 45.000 т.р', 45000)">Чипер+оператор смена - 45.000 т.р</button>
-            </div>
-            
-            <!-- Контейнеры -->
-            <div class="button-group">
-                <h3>Контейнеры</h3>
+                <h3>Расчистка участка</h3>
+                <button onclick="addMessage('Трактор смена (7 часов работы + 1 час подачи) - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
                 <button onclick="addMessage('Контейнер 27м3 - 35.000 т.р', 35000)">Контейнер 27м3 - 35.000 т.р</button>
-                <button onclick="addMessage('Контейнер 20м3 - 25.000 т.р', 25000)">Контейнер 20м3 - 25.000 т.р</button>
-                <button onclick="addMessage('Контейнер 8м3 - 15.000 т.р', 15000)">Контейнер 8м3 - 15.000 т.р</button>
+                <button onclick="addMessage('Контейнер 20м3 - 30.000 т.р', 30000)">Контейнер 20м3 - 30.000 т.р</button>
+                <button onclick="addMessage('Самосвал 20м3 - 25.000 т.р', 25000)">Самосвал 20м3 - 25.000 т.р</button>
+                <button onclick="addMessage('Газель 8м3 - 15.000 т.р', 15000)">Газель 8м3 - 15.000 т.р</button>
+                <button onclick="addMessage('Чипер+оператор на измельчение порубочных остатков - 45.000 т.р', 45000)">Чипер+оператор - 45.000 т.р</button>
                 <div class="custom-price">
-                    <input type="number" id="containerPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Контейнер с погрузкой - ', 'containerPrice')">Контейнер с погрузкой</button>
-                </div>
-            </div>
-            
-            <!-- Работы по газонам -->
-            <div class="button-group">
-                <h3>Работы по газонам</h3>
-                <div class="custom-price">
-                    <input type="number" id="containerPrice2" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Расчистка участка под грабли/такелажные работы - ', 'containerPrice2')">Расчистка участка под грабли/такелажные работы</button>
-                </div>
-                
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="frezaPrice" placeholder="Цена за сотку (т.р)" inputmode="decimal" style="flex: 1;">
-                        <input type="number" id="frezaArea" placeholder="Кол-во соток" inputmode="decimal" style="flex: 1;">
-                    </div>
-                    <button onclick="addFrezaMessage()">Фрезеровка мини-трактором + ручное выравнивание</button>
-                </div>
-                
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="posevPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
-                        <input type="number" id="posevArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
-                    </div>
-                    <button onclick="addGazonMessage('Посевной газон', 'posevPrice', 'posevArea')">Посевной газон</button>
-                </div>
-                
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; gap: 8px;">
-                        <input type="number" id="rulonPrice" placeholder="Цена за м² (т.р)" inputmode="decimal" style="flex: 1;">
-                        <input type="number" id="rulonArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
-                    </div>
-                    <button onclick="addGazonMessage('Рулонный газон', 'rulonPrice', 'rulonArea')">Рулонный газон</button>
-                </div>
-            </div>
-            
-            <!-- Материалы -->
-            <div class="button-group">
-                <h3>Материалы</h3>
-                <button onclick="addMessage('Песок 10м3 - 15.000 т.р', 15000)">Песок 10м3 - 15.000 т.р</button>
-                <button onclick="addMessage('Щебень 10м3 - 33.000 т.р', 33000)">Щебень 10м3 - 33.000 т.р</button>
-                <button onclick="addMessage('Планировочный грунт 10м3 - 20.000 т.р', 20000)">Планировочный грунт 10м3 - 20.000 т.р</button>
-                <button onclick="addMessage('Плодородный грунт 10м3 - 35.000 т.р', 35000)">Плодородный грунт 10м3 - 35.000 т.р</button>
-            </div>
-            
-            <!-- Другие услуги -->
-            <div class="button-group">
-                <h3>Другие услуги</h3>
-               
-                <div class="custom-price">
-                    <input type="number" id="Frezaprice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Фрезеровка пней - ', 'Frezaprice')">Фрезеровка пней</button>
-                </div>
-
-                <div class="custom-price">
-                    <input type="number" id="takelazhPrice" placeholder="Сумма в т.р" inputmode="decimal">
+                    <input type="number" id="takelazhPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
                     <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhPrice')">Такелажные работы</button>
                 </div>
-                
                 <div class="custom-price">
-                    <input type="number" id="spilPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Спил/распил - ', 'spilPrice')">Спил/распил</button>
+                    <input type="number" id="clearingPrice" placeholder="Расчистка под грабли (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Расчистка участка под грабли/такелажные работы - ', 'clearingPrice')">Расчистка под грабли</button>
                 </div>
-                
                 <div class="custom-price">
-                    <input type="number" id="listvaPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Сбор листвы - ', 'listvaPrice')">Сбор листвы</button>
+                    <input type="number" id="spilPrice" placeholder="Спил/распил (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Безопасный спил/распил на носимые части - ', 'spilPrice')">Спил/распил</button>
                 </div>
-                
+                <button onclick="addMessage('Бригадир смена - 7.000 т.р', 7000)">Бригадир смена - 7.000 т.р</button>
+            </div>
+            
+            <!-- Выравнивание участка -->
+            <div class="button-group">
+                <h3>Выравнивание участка</h3>
+                <button onclick="addMessage('Трактор смена (7 часов работы + 1 час подачи) - 32.000 т.р', 32000)">Трактор смена - 32.000 т.р</button>
+                <button onclick="addMessage('Самосвал 20м3 - 25.000 т.р', 25000)">Самосвал 20м3 - 25.000 т.р</button>
                 <div class="custom-price">
-                    <input type="number" id="pokosPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Покос травы - ', 'pokosPrice')">Покос травы</button>
+                    <input type="number" id="takelazhLevelingPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhLevelingPrice')">Такелажные работы</button>
                 </div>
-                
                 <div class="custom-price">
-                    <input type="number" id="brigadirPrice" placeholder="Сумма в т.р" inputmode="decimal">
-                    <button onclick="addCustomMessage('Бригадир смена - ', 'brigadirPrice')">Бригадир смена</button>
+                    <input type="number" id="sandVolume" placeholder="Песок (м³)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Песок', 'sandVolume', 15000, '10м³')">Песок 10м³</button>
                 </div>
+                <div class="custom-price">
+                    <input type="number" id="gravelVolume" placeholder="Щебень (м³)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Щебень', 'gravelVolume', 33000, '10м³')">Щебень 10м³</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="planningGroundVolume" placeholder="Планировочный грунт (м³)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Планировочный грунт', 'planningGroundVolume', 20000, '10м³')">Планировочный грунт 10м³</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="fertileGroundVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Плодородный грунт', 'fertileGroundVolume', 35000, '10м³')">Плодородный грунт 10м³</button>
+                </div>
+                <button onclick="addMessage('Бригадир смена - 7.000 т.р', 7000)">Бригадир смена - 7.000 т.р</button>
+            </div>
+            
+            <!-- Устройство газона -->
+            <div class="button-group">
+                <h3>Устройство посевного или рулонного газона</h3>
+                <div class="custom-price">
+                    <input type="number" id="pokosPrice" placeholder="Покос/скарификация (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Покос, скарификация, сбор скошенной травы - ', 'pokosPrice')">Покос/скарификация</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="clearingLawnPrice" placeholder="Расчистка под грабли (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Расчистка участка под грабли/такелажные работы - ', 'clearingLawnPrice')">Расчистка под грабли</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="takelazhLawnPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhLawnPrice')">Такелажные работы</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="fertileGroundLawnVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Плодородный грунт', 'fertileGroundLawnVolume', 35000, '10м³')">Плодородный грунт 10м³</button>
+                </div>
+                <button onclick="addMessage('Контейнер 8м3 под мусор - 15.000 т.р', 15000)">Контейнер 8м3 - 15.000 т.р</button>
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="frezPrice" placeholder="Цена за сотку (т.р)" value="10" inputmode="decimal" style="flex: 1;">
+                        <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal" style="flex: 1;">
+                    </div>
+                    <button onclick="addAreaBasedMessage('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')">Фрезеровка мини-трактором</button>
+                </div>
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="seededLawnPrice" placeholder="Цена за м² (руб)" value="300" inputmode="decimal" style="flex: 1;">
+                        <input type="number" id="seededLawnArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+                    </div>
+                    <button onclick="addSeededLawnMessage()">Посевной газон</button>
+                </div>
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="rolledLawnPrice" placeholder="Цена за м² (руб)" value="900" inputmode="decimal" style="flex: 1;">
+                        <input type="number" id="rolledLawnArea" placeholder="Площадь (м²)" inputmode="decimal" style="flex: 1;">
+                    </div>
+                    <button onclick="addRolledLawnMessage()">Рулонный газон</button>
+                </div>
+                <button onclick="addMessage('Бригадир смена - 7.000 т.р', 7000)">Бригадир смена - 7.000 т.р</button>
+            </div>
+            
+            <!-- Спил деревьев -->
+            <div class="button-group">
+                <h3>Спил деревьев</h3>
+                <div class="custom-price">
+                    <input type="number" id="spilTreePrice" placeholder="Спил/распил (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Безопасный спил/распил на носимые части - ', 'spilTreePrice')">Спил/распил</button>
+                </div>
+                <button onclick="addMessage('Газель 8м3 - 15.000 т.р', 15000)">Газель 8м3 - 15.000 т.р</button>
+                <button onclick="addMessage('Контейнер 27м3 - 35.000 т.р', 35000)">Контейнер 27м3 - 35.000 т.р</button>
+                <button onclick="addMessage('Чипер+оператор на измельчение порубочных остатков - 45.000 т.р', 45000)">Чипер+оператор - 45.000 т.р</button>
+                <div class="custom-price">
+                    <input type="number" id="stumpPrice" placeholder="Фрезеровка пней (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Фрезеровка пней - ', 'stumpPrice')">Фрезеровка пней</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="takelazhTreePrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomMessage('Такелажные работы - ', 'takelazhTreePrice')">Такелажные работы</button>
+                </div>
+                <button onclick="addMessage('Бригадир смена - 7.000 т.р', 7000)">Бригадир смена - 7.000 т.р</button>
             </div>
         </div>
         
@@ -310,34 +368,91 @@
     <script>
         let total = 0;
         
-        function addFrezaMessage() {
-            const price = parseFloat(document.getElementById('frezaPrice').value);
-            const area = parseFloat(document.getElementById('frezaArea').value);
+        function addSeededLawnMessage() {
+            const price = parseFloat(document.getElementById('seededLawnPrice').value);
+            const area = parseFloat(document.getElementById('seededLawnArea').value);
             
             if (isNaN(price) || price <= 0) {
-                showAlert('Введите корректную цену за сотку (больше 0)');
+                showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
                 return;
             }
             
             if (isNaN(area) || area <= 0) {
-                showAlert('Введите корректное количество соток (больше 0)');
+                showAlert('Пожалуйста, введите корректную площадь (больше 0)');
                 return;
             }
             
-            const totalPrice = price * area;
-            const description = `Фрезеровка мини-трактором + ручное выравнивание (${price.toLocaleString('ru-RU')} т.р/сотка × ${area} сот.)`;
+            const totalPrice = price * area / 1000; // Переводим в т.р для итоговой суммы
+            const description = `Посевной газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area} м²) - ${totalPrice.toLocaleString('ru-RU')} т.р\n- Удаление сорняков граблями\n- Распределение грунта\n- Выравнивание граблями\n- Уплотнение\n- Посев семян\n- Заделка семян`;
+            addMessage(description, totalPrice);
             
-            addMessage(`${description} - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
-            
-            // Очищаем поля
-            document.getElementById('frezaPrice').value = '';
-            document.getElementById('frezaArea').value = '';
+            document.getElementById('seededLawnArea').value = '';
         }
+        
+        function addRolledLawnMessage() {
+            const price = parseFloat(document.getElementById('rolledLawnPrice').value);
+            const area = parseFloat(document.getElementById('rolledLawnArea').value);
+            
+            if (isNaN(price) || price <= 0) {
+                showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
+                return;
+            }
+            
+            if (isNaN(area) || area <= 0) {
+                showAlert('Пожалуйста, введите корректную площадь (больше 0)');
+                return;
+            }
+            
+            const totalPrice = price * area / 1000; // Переводим в т.р для итоговой суммы
+            const description = `Рулонный газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area} м²) - ${totalPrice.toLocaleString('ru-RU')} т.р\n- Доставка\n- Газон\n- Укладка/Подрезка\n- Послеукладочные работы`;
+            addMessage(description, totalPrice);
+            
+            document.getElementById('rolledLawnArea').value = '';
+        }
+        
+        function addAreaBasedMessage(name, priceId, areaId, unit = 'м²') {
+            const price = parseFloat(document.getElementById(priceId).value);
+            const area = parseFloat(document.getElementById(areaId).value);
+            
+            if (isNaN(price) || price <= 0) {
+                showAlert('Пожалуйста, введите корректную цену за ' + unit + ' (больше 0)');
+                return;
+            }
+            
+            if (isNaN(area) || area <= 0) {
+                showAlert('Пожалуйста, введите корректную площадь/количество (больше 0)');
+                return;
+            }
+            
+            const totalPrice = unit === 'м²' ? price * area / 1000 : price * area; // Для м² переводим в т.р
+            addMessage(`${name} (${price.toLocaleString('ru-RU')} ${unit === 'м²' ? 'руб/м²' : 'т.р/сотка'} × ${area} ${unit}) - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
+            
+            document.getElementById(areaId).value = '';
+        }
+        
+      function addCustomMessage(prefix, inputId, unitPrice = null, unit = null) {
+    const input = document.getElementById(inputId);
+    const value = parseFloat(input.value);
+    
+    if (isNaN(value) || value <= 0) {
+        showAlert('Пожалуйста, введите корректную сумму/количество (больше 0)');
+        return;
+    }
+    
+    if (unitPrice && unit) {
+        const pricePerCubicMeter = unitPrice / 10; // Цена за 1 м³ в т.р
+        const totalPrice = pricePerCubicMeter * value; // Общая стоимость в т.р
+        addMessage(`${prefix} (${unitPrice.toLocaleString('ru-RU')} т.р/10м³ × ${value} м³) - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
+    } else {
+        addMessage(`${prefix}${value.toLocaleString('ru-RU')} т.р`, value);
+    }
+    
+    input.value = '';
+}
         
         function addMessage(text, price) {
             const chat = document.getElementById('chat');
             
-            // Если это первое сообщение после заголовка, сбрасываем счетчик
             if (chat.children.length === 1) {
                 chat.style.counterReset = 'item-counter';
             }
@@ -351,41 +466,6 @@
             updateTotal();
             chat.scrollTop = chat.scrollHeight;
         }
-
-        function addGazonMessage(name, priceId, areaId) {
-            const price = parseFloat(document.getElementById(priceId).value);
-            const area = parseFloat(document.getElementById(areaId).value);
-            
-            if (isNaN(price) || price <= 0) {
-                showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
-                return;
-            }
-            
-            if (isNaN(area) || area <= 0) {
-                showAlert('Пожалуйста, введите корректную площадь (больше 0)');
-                return;
-            }
-            
-            const totalPrice = price * area;
-            addMessage(`${name} (${price.toLocaleString('ru-RU')} т.р/м² × ${area} м²) - ${totalPrice.toLocaleString('ru-RU')} т.р`, totalPrice);
-            
-            // Очищаем поля ввода
-            document.getElementById(priceId).value = '';
-            document.getElementById(areaId).value = '';
-        }
-        
-        function addCustomMessage(prefix, inputId) {
-            const input = document.getElementById(inputId);
-            const price = parseInt(input.value);
-            
-            if (isNaN(price) || price <= 0) {
-                showAlert('Пожалуйста, введите корректную сумму (больше 0)');
-                return;
-            }
-            
-            addMessage(prefix + price.toLocaleString('ru-RU') + ' т.р', price);
-            input.value = '';
-        }
         
         function updateTotal() {
             document.getElementById('total').textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' т.р';
@@ -396,19 +476,16 @@
                 document.getElementById('chat').innerHTML = '<div class="message">Предварительный расчёт по Вашему запросу:</div>';
                 total = 0;
                 updateTotal();
-                // Сбрасываем счетчик
                 document.getElementById('chat').style.counterReset = 'item-counter';
             }
         }
         
         function copyChatToClipboard() {
             const chat = document.getElementById('chat');
-            let textToCopy = ' Предварительный расчёт по Вашему запросу\n\n';
+            let textToCopy = 'Предварительный расчёт по Вашему запросу\n\n';
             
-            // Получаем только нумерованные сообщения
             const messages = chat.querySelectorAll('.message-numbered');
             messages.forEach((msg, index) => {
-                // Удаляем нумерацию из текста (она уже есть в before)
                 const messageText = msg.textContent.replace(/^\d+\.\s*/, '');
                 textToCopy += (index + 1) + '. ' + messageText + '\n';
             });
@@ -416,7 +493,6 @@
             textToCopy += '\n====================\n';
             textToCopy += document.getElementById('total').textContent;
             
-            // Создаем временный элемент для копирования
             const textarea = document.createElement('textarea');
             textarea.value = textToCopy;
             textarea.style.position = 'fixed';
@@ -425,30 +501,24 @@
             textarea.setAttribute('readonly', '');
             document.body.appendChild(textarea);
             
-            // Выделяем текст
             textarea.select();
             textarea.setSelectionRange(0, 99999);
             
             try {
-                // Пробуем современный Clipboard API
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(textToCopy)
                         .then(() => showCopySuccess())
                         .catch(() => {
-                            // Если не сработало, используем старый способ
                             document.execCommand('copy');
                             showCopySuccess();
                         });
                 } else {
-                    // Старый способ для старых браузеров
                     document.execCommand('copy');
                     showCopySuccess();
                 }
             } catch (err) {
-                // Если все методы не сработали, предлагаем ручное копирование
                 showCopyManual(textToCopy);
             } finally {
-                // Удаляем временный элемент
                 document.body.removeChild(textarea);
             }
         }
@@ -521,7 +591,6 @@
             modal.appendChild(content);
             document.body.appendChild(modal);
             
-            // Автоматически выделяем текст для копирования
             textarea.select();
             textarea.setSelectionRange(0, 99999);
         }
