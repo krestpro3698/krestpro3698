@@ -42,7 +42,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-html, must-revalidate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>Калькулятор благоустройства</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -54,128 +54,120 @@
     <div class="container">
         <div class="buttons-section">
             <!-- Расчистка участка -->
-            <div class="controls-group">
+            <div class="button-group">
                 <h3><i class="fas fa-tractor"></i> Расчистка участка</h3>
-                <ul>
-                    <li><button onclick="addCustom('Трактор смена (7 часов работы + 1 час подачи):', 32.000 т.р', 32000)"><i class="fas fa-tractor"></i> Трактор смена - 32.000 т.р</button></li>
-                    <li><button onclick="addCustom('Контейнер 27м3:', 35.000 т.р', 35000)"><i class="fas fa-truck"></i> Контейнер 27м3 - 35.000 т.р</button></li>
-                    <li><button onclick="addCustom('Контейнер 20м3:', 30.000 т.р', 30000)"><i class="fas fa-truck"></i> Контейнер 20м3 - 30.000 т.р</button></li>
-                    <li><button onclick="addCustom('Самосвал 20м3:', 25.000 т.р', 25000)"><i class="fas fa-truck"></i> Самосвал 20м3 - 25.000 т.р</button></li>
-                    <li><button onclick="addCustom('Газель 8м3:', 15.000 т.р', 15000)"><i class="fas fa-van-shuttle"></i> Газель 8м3 - 15.000 т.р</button></li>
-                    <li><button onclick="addCustom('Чипер+оператор:', 45.000 т.р', 45000)"><i class="fas fa-cut"></i> Чипер+оператор - 45.000 т.р</button></li>
-                    <li class="custom-price">
-                        <input type="number" id="takelazhPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Такелажные работы', 'takelazhPrice')"><i class="fas fa-tools"></i> Добавить</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="clearingPrice" placeholder="Расчистка под грабли (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Расчистка участка под грабли/такелажные', 'clearingPrice')"><i class="fas fa-rake"></i> Добавить</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="spilPrice" placeholder="Спил/распил (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Безопасный спил/распил на носимые части', 'spilPrice')"><i class="fas fa-cut"></i> Добавить</button>
-                    </li>
-                    <li><button onclick="addCustom('Бригадир смена:', '7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button></li>
-                </ul>
+                <button onclick="addCustom('Трактор смена (7 часов работы + 1 час подачи) - 32.000 т.р', 32000)"><i class="fas fa-tractor"></i> Трактор смена - 32.000 т.р</button>
+                <button onclick="addCustom('Контейнер 27м3 - 35.000 т.р', 35000)"><i class="fas fa-truck"></i> Контейнер 27м3 - 35.000 т.р</button>
+                <button onclick="addCustom('Контейнер 20м3 - 30.000 т.р', 30000)"><i class="fas fa-truck"></i> Контейнер 20м3 - 30.000 т.р</button>
+                <button onclick="addCustom('Самосвал 20м3 - 25.000 т.р', 25000)"><i class="fas fa-truck"></i> Самосвал 20м3 - 25.000 т.р</button>
+                <button onclick="addCustom('Газель 8м3 - 15.000 т.р', 15000)"><i class="fas fa-van-shuttle"></i> Газель 8м3 - 15.000 т.р</button>
+                <button onclick="addCustom('Чипер+оператор на измельчение порубочных остатков - 45.000 т.р', 45000)"><i class="fas fa-cut"></i> Чипер+оператор - 45.000 т.р</button>
+                <div class="custom-price">
+                    <input type="number" id="takelazhPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Такелажные работы', 'takelazhPrice')"><i class="fas fa-tools"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="clearingPrice" placeholder="Расчистка под грабли (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Расчистка участка под грабли/такелажные работы', 'clearingPrice')"><i class="fas fa-rake"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="spilPrice" placeholder="Спил/распил (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Безопасный спил/распил на носимые части', 'spilPrice')"><i class="fas fa-cut"></i> Добавить</button>
+                </div>
+                <button onclick="addCustom('Бригадир смена - 7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button>
             </div>
             
             <!-- Выравнивание участка -->
-            <div class="controls-group">
+            <div class="button-group">
                 <h3><i class="fas fa-shovel"></i> Выравнивание участка</h3>
-                <ul>
-                    <li><button onclick="addCustom('Трактор смена:', '32.000 т.р', 32000)"><i class="fas fa-tractor"></i> Трактор смена - 32.000 т.р</button></li>
-                    <li><button onclick="addCustom('Самосвал 20м3:', 25.000 т.р', 25000)"><i class="fas fa-truck"></i> Самосвал 20м3 - 25.000 т.р</button></li>
-                    <li class="custom-price">
-                        <input type="number" id="takelazhLevelingPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Такелажные работы', 'takelazhLevelingPrice')"><i class="fas fa-tools"></i> Добавить</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="sandVolume" placeholder="Песок (м³)" inputmode="decimal">
-                        <button onclick="addVolume('Песок', 'sandVolume', 15000, '10 м³')"><i class="fas fa-diamond"></i> Добавить Песок</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="gravelVolume" placeholder="Щебень (м³)" inputmode="decimal">
-                        <button onclick="addVolume('Щебень', 'gravelVolume', 33000, '10 м³')"><i class="fas fa-border"></i> Добавить Щебень</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="planningVolume" placeholder="Планировочный грунт (м³)" inputmode="decimal">
-                        <button onclick="addVolume('Планировочный грунт', 'planningVolume', 22500, '10 м³')"><i class="fas fa-layer"></i> Добавить Грунт</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="fertileVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
-                        <button onclick="addVolume('Плодородный грунт', 'fertileVolume', 35000, '10 м³')"><i class="fas fa-leaf"></i> Добавить Грунт</button>
-                    </li>
-                    <li><button onclick="addCustom('Бригадир смена:', '7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button></li>
-                </ul>
+                <button onclick="addCustom('Трактор смена (7 часов работы + 1 час подачи) - 32.000 т.р', 32000)"><i class="fas fa-tractor"></i> Трактор смена - 32.000 т.р</button>
+                <button onclick="addCustom('Самосвал 20м3 - 25.000 т.р', 25000)"><i class="fas fa-truck"></i> Самосвал 20м3 - 25.000 т.р</button>
+                <div class="custom-price">
+                    <input type="number" id="takelazhLevelingPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Такелажные работы', 'takelazhLevelingPrice')"><i class="fas fa-tools"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="sandVolume" placeholder="Песок (м³)" inputmode="decimal">
+                    <button onclick="addVolume('Песок', 'sandVolume', 15000, '10м³')"><i class="fas fa-dune"></i> Добавить Песок</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="gravelVolume" placeholder="Щебень (м³)" inputmode="decimal">
+                    <button onclick="addVolume('Щебень', 'gravelVolume', 33000, '10м³')"><i class="fas fa-road"></i> Добавить Щебень</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="planningGroundVolume" placeholder="Планировочный грунт (м³)" inputmode="decimal">
+                    <button onclick="addVolume('Планировочный грунт', 'planningGroundVolume', 20000, '10м³')"><i class="fas fa-layer-group"></i> Добавить Грунт</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="fertileGroundVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
+                    <button onclick="addVolume('Плодородный грунт', 'fertileGroundVolume', 35000, '10м³')"><i class="fas fa-leaf"></i> Добавить Грунт</button>
+                </div>
+                <button onclick="addCustom('Бригадир смена - 7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button>
             </div>
             
             <!-- Устройство газона -->
-            <div class="controls-group">
-                <h3><i class="fas fa-seedling"></i> Устройство посевного или нового газона</h3>
-                <ul>
-                    <li class="custom-price">
-                        <input type="number" id="pokosPrice" placeholder="Покос/скарификация (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Покос, скарификация, сбор скошенной травы', 'pokosPrice')"><i class="fas fa-leaf"></i> Добавить</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="clearingLawnPrice" placeholder="Расчистка грунта (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Расчистка участка под грабли/такелажные работы', 'clearingLawnPrice')"><i class="fas fa-rake"></i> Добавить</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="takelazhLawnPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Такелажные работы', 'takelazhLawnPrice')"><i> Добавить</i>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="fertileLawnVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
-                        <button onclick="addVolume('Плодородный грунт', 'fertileLawnVolume', 35000, '10 м³')"><i class="fas fa-leaf"></i> Добавить Грунт</button>
-                    </li>
-                    <li><button onclick="addCustom('Контейнер 8м3:', '15.000 т.р', 15000)"><i class="fas fa-truck"></i> Контейнер 8м3 - 15.000 т.р</button></li>
-                    <li class="custom-price">
-                        <div class="input-group">
-                            <input type="number" id="frezPrice" placeholder="Цена за сотку (т.р)" value="2100" inputmode="decimal">
-                            <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
-                        </div>
-                        <button onclick="addAreaBased('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')"><i class="fas fa-tractor"></i> Добавить Фрезеровку</button>
-                    </li>
-                    <li class="custom-price">
-                        <div class="input-group">
-                            <input type="number" id="seededLawnPrice" placeholder="Цена за м² (руб)" value="300" inputmode="decimal">
-                            <input type="number" id="seededLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
-                        </div>
-                        <button onclick="addSeededLawnButton()"><i class="fas fa-seedling"></i> Добавить Семенной газон</button>
-                    </li>
-                    <li class="custom-price">
-                        <div class="input-group">
-                            <input type="number" id="rolledLawnPrice" placeholder="Цена за м² (руб)" value="900" inputmode="decimal">
-                            <input type="number" id="rolledLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
-                        </div>
-                        <button onclick="addRolledLawnButton()"><i class="fas fa-plus"></i> Добавить Рулонный газон</button>
-                    </li>
-                    <li><button onclick="addCustom('Бригадир смена:', '7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button></li>
-                </ul>
+            <div class="button-group">
+                <h3><i class="fas fa-seedling"></i> Устройство посевного или рулонного газона</h3>
+                <div class="custom-price">
+                    <input type="number" id="pokosPrice" placeholder="Покос/скарификация (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Покос, скарификация, сбор скошенной травы', 'pokosPrice')"><i class="fas fa-leaf"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="clearingLawnPrice" placeholder="Расчистка под грабли (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Расчистка участка под грабли/такелажные работы', 'clearingLawnPrice')"><i class="fas fa-rake"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="takelazhLawnPrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Такелажные работы', 'takelazhLawnPrice')"><i class="fas fa-tools"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="fertileGroundLawnVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
+                    <button onclick="addVolume('Плодородный грунт', 'fertileGroundLawnVolume', 35000, '10м³')"><i class="fas fa-leaf"></i> Добавить Грунт</button>
+                </div>
+                <button onclick="addCustom('Контейнер 8м3 под мусор - 15.000 т.р', 15000)"><i class="fas fa-truck"></i> Контейнер 8м3 - 15.000 т.р</button>
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="input-group">
+                        <input type="number" id="frezPrice" placeholder="Цена за сотку (т.р)" value="10" inputmode="decimal">
+                        <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
+                    </div>
+                    <button onclick="addAreaBased('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')"><i class="fas fa-tractor"></i> Добавить Фрезеровку</button>
+                </div>
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="input-group">
+                        <input type="number" id="seededLawnPrice" placeholder="Цена за м² (руб)" value="300" inputmode="decimal">
+                        <input type="number" id="seededLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
+                    </div>
+                    <button onclick="addSeededLawnButton()"><i class="fas fa-seedling"></i> Добавить Посевной газон</button>
+                </div>
+                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="input-group">
+                        <input type="number" id="rolledLawnPrice" placeholder="Цена за м² (руб)" value="900" inputmode="decimal">
+                        <input type="number" id="rolledLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
+                    </div>
+                    <button onclick="addRolledLawnButton()"><i class="fas fa-seedling"></i> Добавить Рулонный газон</button>
+                </div>
+                <button onclick="addCustom('Бригадир смена - 7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button>
             </div>
             
             <!-- Спил деревьев -->
-            <div class="controls-group">
+            <div class="button-group">
                 <h3><i class="fas fa-tree"></i> Спил деревьев</h3>
-                <ul>
-                    <li class="custom-price">
-                        <input type="number" id="spilTreePrice" placeholder="Спил/распил (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Безопасный спил/распил на носимые части', 'spilTreePrice')"><i class="fas fa-cut"></i> Добавить</button>
-                    </li>
-                    <li><button onclick="addCustom('Газель 8м3:', '15.000 т.р', 15000)"><i class="fas fa-van-shuttle"></i> Газель 8м3 - 15.000 т.р</button></li>
-                    <li><button onclick="addCustom('Контейнер 27м3:', '35.000 т.р', 35000)"><i class="fas fa-truck"></i> Контейнер 27м3 - 35.000 т.р</button></li>
-                    <li><button onclick="addCustom('Чипер+оператор:', '45.000 т.р', 45000)"><i class="fas fa-cut"></i> Чипер+оператор - 45.000 т.р</button></li>
-                    <li class="custom-price">
-                        <input type="number" id="stumpPrice" placeholder="Фрезеровка пней (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Фрезеровка пней', 'stumpPrice')"><i class="fas fa-tools"></i> Добавить</button>
-                    </li>
-                    <li class="custom-price">
-                        <input type="number" id="takelazhTreePrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
-                        <button onclick="addCustomPrice('Такелажные работы', 'takelazhTreePrice')"><i class="fas fa-tools"></i> Добавить</button>
-                    </li>
-                    <li><button onclick="addCustom('Бригадир смена:', '7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button></li>
-                </ul>
+                <div class="custom-price">
+                    <input type="number" id="spilTreePrice" placeholder="Спил/распил (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Безопасный спил/распил на носимые части', 'spilTreePrice')"><i class="fas fa-cut"></i> Добавить</button>
+                </div>
+                <button onclick="addCustom('Газель 8м3 - 15.000 т.р', 15000)"><i class="fas fa-van-shuttle"></i> Газель 8м3 - 15.000 т.р</button>
+                <button onclick="addCustom('Контейнер 27м3 - 35.000 т.р', 35000)"><i class="fas fa-truck"></i> Контейнер 27м3 - 35.000 т.р</button>
+                <button onclick="addCustom('Чипер+оператор на измельчение порубочных остатков - 45.000 т.р', 45000)"><i class="fas fa-cut"></i> Чипер+оператор - 45.000 т.р</button>
+                <div class="custom-price">
+                    <input type="number" id="stumpPrice" placeholder="Фрезеровка пней (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Фрезеровка пней', 'stumpPrice')"><i class="fas fa-tools"></i> Добавить</button>
+                </div>
+                <div class="custom-price">
+                    <input type="number" id="takelazhTreePrice" placeholder="Такелажные работы (т.р)" inputmode="decimal">
+                    <button onclick="addCustomPrice('Такелажные работы', 'takelazhTreePrice')"><i class="fas fa-tools"></i> Добавить</button>
+                </div>
+                <button onclick="addCustom('Бригадир смена - 7.000 т.р', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7.000 т.р</button>
             </div>
         </div>
         
