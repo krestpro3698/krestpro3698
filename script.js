@@ -1,7 +1,7 @@
 let total = 0;
 
 function formatPrice(number) {
-    return number.toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return number.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\s/g, ',');
 }
 
 function addSeededLawnButton() {
@@ -18,9 +18,9 @@ function addSeededLawnButton() {
         return;
     }
     
-    const totalPrice = price * area / 1000; // Переводим в т.р
-    const description = `Посевной газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) - ${formatPrice(totalPrice)} т.р\n- Удаление сорняков граблями\n- Распределение грунта\n- Выравнивание граблями\n- Уплотнение\n- Посев семян\n- Заделка семян`;
-    addCustom(description, totalPrice);
+    const totalPrice = price * area; // Сумма в рублях
+    const description = `Посевной газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)}`;
+    addCustom(description, totalPrice); // Передаем в рублях
     
     document.getElementById('seededLawnArea').value = '';
 }
@@ -39,14 +39,14 @@ function addRolledLawnButton() {
         return;
     }
     
-    const totalPrice = price * area / 1000; // Переводим в т.р
-    const description = `Рулонный газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) - ${formatPrice(totalPrice)} т.р\n- Доставка\n- Газон\n- Укладка/Подрезка\n- Послеукладочные работы`;
-    addCustom(description, totalPrice);
+    const totalPrice = price * area; // Сумма в рублях
+    const description = `Рулонный газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)}`;
+    addCustom(description, totalPrice); // Передаем в рублях
     
     document.getElementById('rolledLawnArea').value = '';
 }
 
-function addAreaBased(name, priceId, areaId, unit = 'м²') {
+function addAreaBased(name, priceId, areaId, unit = 'area') {
     const price = parseFloat(document.getElementById(priceId).value);
     const area = parseFloat(document.getElementById(areaId).value);
     
@@ -60,8 +60,8 @@ function addAreaBased(name, priceId, areaId, unit = 'м²') {
         return;
     }
     
-    const totalPrice = unit === 'м²' ? price * area / 1000 : price * area; // Для м² переводим в т.р
-    addCustom(`${name} (${price.toLocaleString('ru-RU')} ${unit === 'м²' ? 'руб/м²' : 'т.р/сотка'} × ${area.toLocaleString('ru-RU')} ${unit}) - ${formatPrice(totalPrice)} т.р`, totalPrice);
+    const totalPrice = price * area; // Сумма в рублях
+    addCustom(`${name} (${price.toLocaleString('ru-RU')} руб/${unit === 'area' ? 'м²' : 'сотку'} × ${area.toLocaleString('ru-RU')} ${unit}) — ${formatPrice(totalPrice)}`, totalPrice); // Передаем в рублях
     
     document.getElementById(areaId).value = '';
 }
@@ -75,9 +75,9 @@ function addVolume(prefix, inputId, unitPrice, unit) {
         return;
     }
     
-    const pricePerCubicMeter = unitPrice / 10; // Цена за 1 м³ в т.р
-    const totalPrice = pricePerCubicMeter * value; // Общая стоимость в т.р
-    addCustom(`${prefix} (${unitPrice.toLocaleString('ru-RU')} т.р/10м³ × ${value.toLocaleString('ru-RU')} м³) - ${formatPrice(totalPrice)} т.р`, totalPrice);
+    const pricePerCubicMeter = unitPrice; // Цена за 1 м³ в рублях
+    const totalPrice = pricePerCubicMeter * value; // Общая стоимость в рублях
+    addCustom(`${prefix} (${unitPrice.toLocaleString('ru-RU')} за 10м³ × ${value.toLocaleString('ru-RU')} м³) — ${formatPrice(totalPrice)}`, totalPrice); // Передаем в рублях
     
     input.value = '';
 }
@@ -91,7 +91,7 @@ function addCustomPrice(prefix, inputId) {
         return;
     }
     
-    addCustom(`${prefix} - ${formatPrice(value)} т.р`, value);
+    addCustom(`${prefix} — ${formatPrice(value)}`, value); // Отображаем и передаем в рублях
     input.value = '';
 }
 
@@ -107,13 +107,13 @@ function addCustom(text, price) {
     message.textContent = text;
     chat.appendChild(message);
     
-    total += parseFloat(price); // Цена уже в т.р
+    total += parseFloat(price); // Суммируем в рублях
     updateTotal();
     chat.scrollTop = chat.scrollHeight;
 }
 
 function updateTotal() {
-    document.getElementById('total').textContent = 'Итого: ' + formatPrice(total) + ' т.р';
+    document.getElementById('total').textContent = 'Итого: ' + formatPrice(total); // Отображаем в рублях
 }
 
 function clearChat() {
@@ -132,13 +132,13 @@ function copyChatToClipboard() {
     const messages = chat.querySelectorAll('.message-numbered');
     messages.forEach((msg, index) => {
         const messageText = msg.textContent.replace(/^\d+\.\s*/, '');
-        textToCopy += (index + 1) + '. ' + messageText + '\n';
+        textToCopy += (index + 1) + '. ' + messageText + ' т.р\n';
     });
     
     textToCopy += '\n====================\n';
-    textToCopy += document.getElementById('total').textContent + '\n';
-    textToCopy += ' Срок исполнения:\n';
-    textToCopy += ' Предложение будет действительно в течение 14 дней.';
+    textToCopy += 'Итого: ' + formatPrice(total) + ' т.р\n';
+    textToCopy += 'Срок исполнения:\n';
+    textToCopy += 'Предложение будет действительно в течение 14 дней.';
     
     const textarea = document.createElement('textarea');
     textarea.value = textToCopy;
