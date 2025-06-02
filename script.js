@@ -137,6 +137,8 @@ function copyChatToClipboard() {
     
     textToCopy += '\n====================\n';
     textToCopy += document.getElementById('total').textContent;
+    textToCopy += '\ Срок исполнения:';
+    textToCopy += '\ Предложение будет действительно в течение 14 дней.';
     
     const textarea = document.createElement('textarea');
     textarea.value = textToCopy;
