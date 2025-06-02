@@ -107,7 +107,7 @@ function addCustom(text, price) {
     message.textContent = text;
     chat.appendChild(message);
     
-    total += parseFloat(price); // Убедимся, что price — число
+    total += parseFloat(price); // Цена уже в т.р
     updateTotal();
     chat.scrollTop = chat.scrollHeight;
 }
@@ -136,9 +136,9 @@ function copyChatToClipboard() {
     });
     
     textToCopy += '\n====================\n';
-    textToCopy += document.getElementById('total').textContent;
-    textToCopy += '\n Срок исполнения:\n';
-    textToCopy += '\n Предложение будет действительно в течение 14 дней.\n';
+    textToCopy += document.getElementById('total').textContent + '\n';
+    textToCopy += ' Срок исполнения:\n';
+    textToCopy += ' Предложение будет действительно в течение 14 дней.';
     
     const textarea = document.createElement('textarea');
     textarea.value = textToCopy;
