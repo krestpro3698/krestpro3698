@@ -75,9 +75,9 @@ function addVolume(prefix, inputId, unitPrice, unit) {
         return;
     }
     
-    const pricePerCubicMeter = unitPrice; // Цена за 1 м³ в рублях
+    const pricePerCubicMeter = unitPrice / 10; // Цена за 1 м³ в рублях (unitPrice за 10 м³)
     const totalPrice = pricePerCubicMeter * value; // Общая стоимость в рублях
-    addCustom(`${prefix} (${unitPrice.toLocaleString('ru-RU')} за 10м³ × ${value.toLocaleString('ru-RU')} м³) — ${formatPrice(totalPrice)}`, totalPrice); // Передаем в рублях
+    addCustom(`${prefix} (${formatPrice(pricePerCubicMeter)} руб/м³ × ${value.toLocaleString('ru-RU')} м³) — ${formatPrice(totalPrice)}`, totalPrice); // Передаем в рублях
     
     input.value = '';
 }
