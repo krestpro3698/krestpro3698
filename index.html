@@ -108,6 +108,7 @@
                     <button onclick="addRolledLawnButton()"><i class="fas fa-seedling"></i> Добавить Рулонный газон</button>
                 </div>
                 <button onclick="addCustom('Бригадир смена - 7,000', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7,000</button>
+                
             </div>
             
             <!-- Спил деревьев -->
@@ -130,6 +131,23 @@
                 </div>
                 <button onclick="addCustom('Бригадир смена - 7,000', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7,000</button>
             </div>
+            <div class="controls-group">
+    <h3>Благоустройство участка</h3>
+    <div class="input-group">
+        <input type="number" id="pavingSandPrice" placeholder="Цена за м²">
+        <input type="number" id="pavingSandArea" placeholder="Площадь, м²">
+    </div>
+    <button onclick="addPavingSandButton()">Добавить Брусчатку на песчано-щебневом основании</button>
+    <div class="input-group">
+        <input type="number" id="pavingConcretePrice" placeholder="Цена за м²">
+        <input type="number" id="pavingConcreteArea" placeholder="Площадь, м²">
+    </div>
+    <button onclick="addPavingConcreteButton()">Добавить Брусчатку на бетонном основании</button>
+    <div class="input-group">
+      <button onclick="addDrivewayButton()">Добавить Въездную группу с дренажной трубой</button>
+    </div>
+    
+</div>
         </div>
         
         <div class="chat-section" id="chat">
