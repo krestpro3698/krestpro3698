@@ -19,10 +19,17 @@ function addSeededLawnButton() {
     }
     
     const totalPrice = price * area; // Сумма в рублях
-    const description = `Посевной газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)}`;
-    addCustom(description, totalPrice); // Передаем в рублях
+    const description = `Посевной газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)} \n   - Удаление сорняков граблями\n   - Распределение грунта\n   - Выравнивание граблями\n   - Уплотнение\n   - Посев семян\n   - Заделка семян`;
+    const message = document.createElement('div');
+    message.className = 'message-numbered';
+    message.textContent = description;
+    message.dataset.type = 'seededLawnDetails'; // Метка для копирования
+    document.getElementById('chat').appendChild(message);
     
+    total += parseFloat(totalPrice);
+    updateTotal();
     document.getElementById('seededLawnArea').value = '';
+    document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
 }
 
 function addRolledLawnButton() {
@@ -40,10 +47,17 @@ function addRolledLawnButton() {
     }
     
     const totalPrice = price * area; // Сумма в рублях
-    const description = `Рулонный газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)}`;
-    addCustom(description, totalPrice); // Передаем в рублях
+    const description = `Рулонный газон под ключ (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)} \n   - Доставка\n   - Газон\n   - Укладка / Подрезка\n   - Послеукладочные работы`;
+    const message = document.createElement('div');
+    message.className = 'message-numbered';
+    message.textContent = description;
+    message.dataset.type = 'rolledLawnDetails'; // Метка для копирования
+    document.getElementById('chat').appendChild(message);
     
+    total += parseFloat(totalPrice);
+    updateTotal();
     document.getElementById('rolledLawnArea').value = '';
+    document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
 }
 
 function addAreaBased(name, priceId, areaId, unit = 'area') {
@@ -61,11 +75,20 @@ function addAreaBased(name, priceId, areaId, unit = 'area') {
     }
     
     const totalPrice = price * area; // Сумма в рублях
-    addCustom(`${name} (${price.toLocaleString('ru-RU')} руб/${unit === 'area' ? 'м²' : 'сотку'} × ${area.toLocaleString('ru-RU')} ${unit}) — ${formatPrice(totalPrice)}`, totalPrice); // Передаем в рублях
+    const unitLabel = unit === 'area' ? 'м²' : getSotkaLabel(area); // Используем функцию для склонения
+    addCustom(`${name} (${price.toLocaleString('ru-RU')} руб/${unitLabel} × ${area.toLocaleString('ru-RU')} ${unitLabel}) — ${formatPrice(totalPrice)} `, totalPrice); // Добавляем т.р
     
     document.getElementById(areaId).value = '';
 }
 
+function getSotkaLabel(number) {
+    const lastDigit = number % 10;
+    const lastTwoDigits = number % 100;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'соток';
+    if (lastDigit === 1) return 'сотка';
+    if (lastDigit >= 2 && lastDigit <= 4) return 'сотки';
+    return 'соток';
+}
 function addVolume(prefix, inputId, unitPrice, unit) {
     const input = document.getElementById(inputId);
     const value = parseFloat(input.value);
@@ -81,6 +104,62 @@ function addVolume(prefix, inputId, unitPrice, unit) {
     
     input.value = '';
 }
+function addPavingSandButton() {
+    const price = parseFloat(document.getElementById('pavingSandPrice').value);
+    const area = parseFloat(document.getElementById('pavingSandArea').value);
+    
+    if (isNaN(price) || price <= 0) {
+        showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
+        return;
+    }
+    
+    if (isNaN(area) || area <= 0) {
+        showAlert('Пожалуйста, введите корректную площадь (больше 0)');
+        return;
+    }
+    
+    const totalPrice = price * area; // Сумма в рублях
+    const description = `Брусчатка на песчано-щебневом основании (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)} `;
+    addCustom(description, totalPrice); // Передаем в рублях
+    
+    document.getElementById('pavingSandArea').value = '';
+}
+
+function addPavingConcreteButton() {
+    const price = parseFloat(document.getElementById('pavingConcretePrice').value);
+    const area = parseFloat(document.getElementById('pavingConcreteArea').value);
+    
+    if (isNaN(price) || price <= 0) {
+        showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
+        return;
+    }
+    
+    if (isNaN(area) || area <= 0) {
+        showAlert('Пожалуйста, введите корректную площадь (больше 0)');
+        return;
+    }
+    
+    const totalPrice = price * area; // Сумма в рублях
+    const description = `Брусчатка на бетонном основании (${price.toLocaleString('ru-RU')} руб/м² × ${area.toLocaleString('ru-RU')} м²) — ${formatPrice(totalPrice)} `;
+    addCustom(description, totalPrice); // Передаем в рублях
+    
+    document.getElementById('pavingConcreteArea').value = '';
+}
+
+function addDrivewayButton() {
+    const totalPrice = 125000; // Фиксированная цена в рублях
+    const description = `Въездная группа с дренажной трубой — ${formatPrice(totalPrice)}\n   - Геотекстиль\n   - Слой песка\n   - Труба-300 мм 6 м\n   - Слой песка\n   - Слой щебня\n   - Виброплита\n   - Такелажные работы`;
+    const message = document.createElement('div');
+    message.className = 'message-numbered';
+    message.textContent = description;
+    message.dataset.type = 'drivewayDetails'; // Метка для копирования
+    document.getElementById('chat').appendChild(message);
+    
+    total += parseFloat(totalPrice);
+    updateTotal();
+    document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
+}
+
 
 function addCustomPrice(prefix, inputId) {
     const input = document.getElementById(inputId);
@@ -125,6 +204,7 @@ function clearChat() {
     }
 }
 
+
 function copyChatToClipboard() {
     const chat = document.getElementById('chat');
     let textToCopy = 'Предварительный расчёт по Вашему запросу\n\n';
@@ -132,13 +212,25 @@ function copyChatToClipboard() {
     const messages = chat.querySelectorAll('.message-numbered');
     messages.forEach((msg, index) => {
         const messageText = msg.textContent.replace(/^\d+\.\s*/, '');
-        textToCopy += (index + 1) + '. ' + messageText + ' т.р\n';
+        if (msg.dataset.type === 'rolledLawnDetails' || msg.dataset.type === 'seededLawnDetails' || msg.dataset.type === 'drivewayDetails') {
+            // Извлекаем основную строку до пунктов (до первого \n)
+            const mainLine = messageText.split('\n')[0];
+            textToCopy += `${index + 1}. ${mainLine} т.р\n`;
+            // Добавляем пункты, если они есть
+            const details = messageText.split('\n').slice(1).join('\n');
+            if (details) {
+                textToCopy += `${details}\n`;
+            }
+        } else {
+            textToCopy += `${index + 1}. ${messageText} т.р\n`;
+        }
     });
     
     textToCopy += '\n====================\n';
     textToCopy += 'Итого: ' + formatPrice(total) + ' т.р\n';
     textToCopy += 'Срок исполнения:\n';
     textToCopy += 'Предложение будет действительно в течение 14 дней.';
+    
     
     const textarea = document.createElement('textarea');
     textarea.value = textToCopy;
