@@ -204,6 +204,17 @@ function clearChat() {
     }
 }
 
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+}
+
+// Загрузка сохраненной темы при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+});
 
 function copyChatToClipboard() {
     const chat = document.getElementById('chat');
