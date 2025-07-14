@@ -233,4 +233,117 @@ button:active {
     .custom-price input, .input-group input {
         font-size: 1.1rem;
     }
+
+    /* Стили для кнопки переключения темы */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.theme-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.theme-btn:hover {
+    background: rgba(51, 144, 236, 0.2); /* Лёгкий голубой ховер, как в Telegram */
+}
+
+.theme-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Стили для тёмной темы в стиле Telegram */
+body.dark-theme {
+    background: linear-gradient(135deg, #212B36 0%, #1C252F 100%); /* Тёмный градиент Telegram */
+}
+
+.dark-theme .controls-group {
+    background: #2A3542;
+    color: #DDE2E8;
+}
+
+.dark-theme .chat-section {
+    background: rgba(42, 53, 66, 0.95);
+    color: #DDE2E8;
+}
+
+.dark-theme .total {
+    background: #2A3542;
+    color: #DDE2E8;
+}
+
+.dark-theme .message, .dark-theme .message-numbered {
+    background: #2A3542;
+    border-left-color: #3390EC; /* Голубой акцент Telegram */
+}
+
+.dark-theme .message-numbered::before {
+    color: #3390EC;
+}
+
+.dark-theme h1 {
+    color: #DDE2E8;
+}
+
+.dark-theme button {
+    background: #3390EC;
+}
+
+.dark-theme button:hover {
+    background: #2A7CC7;
+}
+
+.dark-theme .custom-price button {
+    background: #3390EC;
+}
+
+.dark-theme .custom-price button:hover {
+    background: #2A7CC7;
+}
+
+.dark-theme .clear-btn {
+    background: #D83A52; /* Красный, как в Telegram для удаления */
+}
+
+.dark-theme .clear-btn:hover {
+    background: #B93245;
+}
+
+.dark-theme .copy-btn {
+    background: #3390EC;
+}
+
+.dark-theme .copy-btn:hover {
+    background: #2A7CC7;
+}
+
+.dark-theme .save-pdf-btn {
+    background: #3390EC;
+}
+
+.dark-theme .save-pdf-btn:hover {
+    background: #2A7CC7;
+}
+
+.dark-theme .custom-price input {
+    background: #2A3542;
+    color: #DDE2E8;
+    border-color: #3B4A5A;
+}
+
+.dark-theme .custom-price input:focus {
+    border-color: #3390EC;
+    box-shadow: 0 0 0 3px rgba(51, 144, 236, 0.2);
+}
 }
