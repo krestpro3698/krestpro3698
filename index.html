@@ -102,15 +102,16 @@
                 </div>
                 <button onclick="addCustom('Газель 8м3 под мусор - 15,000', 15000)"><i class="fas fa-truck"></i> Газель 8м3 - 15,000</button>
                 <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div class="input-group">
-                        <input type="number" id="frezPrice" placeholder="Цена за сотку (руб)" value="10000" inputmode="decimal">
-                        <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
-                    </div>
-                    <button onclick="addAreaBased('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')"><i class="fas fa-tractor"></i> Добавить Фрезеровку</button>
-                </div>
-            
-            
-                     <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+    <div class="input-group">
+        <input type="number" id="frezPrice" placeholder="Цена за сотку (руб)" value="10000" inputmode="decimal">
+        <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
+    </div>
+    <button onclick="addAreaBased('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')">
+        <i class="fas fa-tractor"></i> Добавить Фрезеровку
+    </button>
+</div>
+
+<div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
     <div class="input-group">
         <input type="number" id="kosbaPrice" placeholder="Цена за сотку (руб)" value="5000" inputmode="decimal">
         <input type="number" id="kosbaArea" placeholder="Кол-во соток" inputmode="decimal">
