@@ -69,7 +69,20 @@ function addAreaBased(name, priceId, areaId, unit = 'area') {
         return;
     }
 
-    function addAreaBased1(name, priceId, areaId, unit = 'area') {
+    
+    if (isNaN(area) || area <= 0) {
+        showAlert('Пожалуйста, введите корректную площадь/количество (больше 0)');
+        return;
+    }
+    
+    const totalPrice = price * area; // Сумма в рублях
+    const unitLabel = unit === 'area' ? 'м²' : getSotkaLabel(area); // Используем функцию для склонения
+    addCustom(`${name} (${price.toLocaleString('ru-RU')} руб/${unitLabel} × ${area.toLocaleString('ru-RU')} ${unitLabel}) — ${formatPrice(totalPrice)} `, totalPrice); // Добавляем т.р
+    
+    document.getElementById(areaId).value = '';
+}
+
+function addAreaBased1(name, priceId, areaId, unit = 'area') {
     const price = parseFloat(document.getElementById(priceId).value);
     const area = parseFloat(document.getElementById(areaId).value);
     
@@ -77,6 +90,7 @@ function addAreaBased(name, priceId, areaId, unit = 'area') {
         showAlert('Пожалуйста, введите корректную цену за ' + unit + ' (больше 0)');
         return;
     }
+
     
     if (isNaN(area) || area <= 0) {
         showAlert('Пожалуйста, введите корректную площадь/количество (больше 0)');
