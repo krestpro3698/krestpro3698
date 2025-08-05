@@ -113,7 +113,15 @@
                         <input type="number" id="frezPrice" placeholder="Цена за сотку (руб)" value="5000" inputmode="decimal">
                         <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
                     </div>
-                  
+                     <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+    <div class="input-group">
+        <input type="number" id="kosbaPrice" placeholder="Цена за сотку (руб)" value="5000" inputmode="decimal">
+        <input type="number" id="kosbaArea" placeholder="Кол-во соток" inputmode="decimal">
+    </div>
+    <button onclick="addAreaBased('Покос участка мини-трактором', 'kosbaPrice', 'kosbaArea', 'сотка')">
+        <i class="fas fa-tractor"></i> Добавить покос
+    </button>
+</div>
                     <button onclick="addSeededLawnButton()"><i class="fas fa-seedling"></i> Добавить Посевной газон</button>
                 </div>
                 <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
