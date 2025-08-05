@@ -68,6 +68,15 @@ function addAreaBased(name, priceId, areaId, unit = 'area') {
         showAlert('Пожалуйста, введите корректную цену за ' + unit + ' (больше 0)');
         return;
     }
+
+    function addAreaBased1(name, priceId, areaId, unit = 'area') {
+    const price = parseFloat(document.getElementById(priceId).value);
+    const area = parseFloat(document.getElementById(areaId).value);
+    
+    if (isNaN(price) || price <= 0) {
+        showAlert('Пожалуйста, введите корректную цену за ' + unit + ' (больше 0)');
+        return;
+    }
     
     if (isNaN(area) || area <= 0) {
         showAlert('Пожалуйста, введите корректную площадь/количество (больше 0)');
