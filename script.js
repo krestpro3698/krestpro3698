@@ -7,7 +7,8 @@ function formatPrice(number) {
 function addSeededLawnButton() {
     const price = parseFloat(document.getElementById('seededLawnPrice').value);
     const area = parseFloat(document.getElementById('seededLawnArea').value);
-    
+    const price = parseFloat(document.getElementById('seededLawnPrice1').value);
+    const area = parseFloat(document.getElementById('seededLawnArea1').value);
     if (isNaN(price) || price <= 0) {
         showAlert('Пожалуйста, введите корректную цену за м² (больше 0)');
         return;
