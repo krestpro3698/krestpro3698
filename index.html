@@ -82,57 +82,65 @@
             </div>
             
             <!-- Устройство газона -->
-            <div class="button-group">
-                <h3><i class="fas fa-seedling"></i> Устройство посевного или рулонного газона</h3>
-                <div class="custom-price">
-                    <input type="number" id="pokosPrice" placeholder="Покос/скарификация Цена (руб)" inputmode="decimal">
-                    <button onclick="addCustomPrice('Покос, скарификация, сбор скошенной травы', 'pokosPrice')"><i class="fas fa-leaf"></i> Добавить</button>
-                </div>
-                <div class="custom-price">
-                    <input type="number" id="clearingLawnPrice" placeholder="Расчистка под грабли Цена (руб)" inputmode="decimal">
-                    <button onclick="addCustomPrice('Расчистка участка под грабли/такелажные работы', 'clearingLawnPrice')"><i class="fas fa-rake"></i> Добавить</button>
-                </div>
-                <div class="custom-price">
-                    <input type="number" id="takelazhLawnPrice" placeholder="Планирование грунта по участку Цена (руб)" inputmode="decimal">
-                    <button onclick="addCustomPrice('Планирование грунта по участку', 'takelazhLawnPrice')"><i class="fas fa-tools"></i> Добавить</button>
-                </div>
-                <div class="custom-price">
-                    <input type="number" id="fertileGroundLawnVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
-                    <button onclick="addVolume('Плодородный грунт', 'fertileGroundLawnVolume', 35000, '10м³')"><i class="fas fa-leaf"></i> Добавить Грунт</button>
-                </div>
-                <button onclick="addCustom('Газель 8м3 под мусор - 15,000', 15000)"><i class="fas fa-truck"></i> Газель 8м3 - 15,000</button>
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-    <div class="input-group">
-        <input type="number" id="frezPrice" placeholder="Цена за сотку (руб)" value="10000" inputmode="decimal">
-        <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
+           <!-- Устройство газона -->
+<div class="button-group">
+    <h3><i class="fas fa-seedling"></i> Устройство посевного или рулонного газона</h3>
+    <div class="custom-price">
+        <input type="number" id="pokosPrice" placeholder="Покос/скарификация Цена (руб)" inputmode="decimal">
+        <button onclick="addCustomPrice('Покос, скарификация, сбор скошенной травы', 'pokosPrice')"><i class="fas fa-leaf"></i> Добавить</button>
     </div>
-    <button onclick="addAreaBased('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')">
-        <i class="fas fa-tractor"></i> Добавить Фрезеровку
-    </button>
-</div>
+    <div class="custom-price">
+        <input type="number" id="clearingLawnPrice" placeholder="Расчистка под грабли Цена (руб)" inputmode="decimal">
+        <button onclick="addCustomPrice('Расчистка участка под грабли/такелажные работы', 'clearingLawnPrice')"><i class="fas fa-rake"></i> Добавить</button>
+    </div>
+    <div class="custom-price">
+        <input type="number" id="takelazhLawnPrice" placeholder="Планирование грунта по участку Цена (руб)" inputmode="decimal">
+        <button onclick="addCustomPrice('Планирование грунта по участку', 'takelazhLawnPrice')"><i class="fas fa-tools"></i> Добавить</button>
+    </div>
+    <div class="custom-price">
+        <input type="number" id="fertileGroundLawnVolume" placeholder="Плодородный грунт (м³)" inputmode="decimal">
+        <button onclick="addVolume('Плодородный грунт', 'fertileGroundLawnVolume', 35000, '10м³')"><i class="fas fa-leaf"></i> Добавить Грунт</button>
+    </div>
+    <button onclick="addCustom('Газель 8м3 под мусор - 15,000', 15000)"><i class="fas fa-truck"></i> Газель 8м3 - 15,000</button>
+    
+    <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="input-group">
+            <input type="number" id="frezPrice" placeholder="Цена за сотку (руб)" value="10000" inputmode="decimal">
+            <input type="number" id="frezArea" placeholder="Кол-во соток" inputmode="decimal">
+        </div>
+        <button onclick="addAreaBased('Фрезеровка мини-трактором с ручным выравниванием', 'frezPrice', 'frezArea', 'сотка')">
+            <i class="fas fa-tractor"></i> Добавить Фрезеровку
+        </button>
+    </div>
 
-<div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-    <div class="input-group">
-        <input type="number" id="kosbaPrice" placeholder="Цена за сотку (руб)" value="5000" inputmode="decimal">
-        <input type="number" id="kosbaArea" placeholder="Кол-во соток" inputmode="decimal">
+    <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="input-group">
+            <input type="number" id="kosbaPrice" placeholder="Цена за сотку (руб)" value="5000" inputmode="decimal">
+            <input type="number" id="kosbaArea" placeholder="Кол-во соток" inputmode="decimal">
+        </div>
+        <button onclick="addAreaBased('Покос участка мини-трактором', 'kosbaPrice', 'kosbaArea', 'сотка')">
+            <i class="fas fa-tractor"></i> Добавить покос
+        </button>
     </div>
-    <button onclick="addAreaBased('Покос участка мини-трактором', 'kosbaPrice', 'kosbaArea', 'сотка')">
-        <i class="fas fa-tractor"></i> Добавить покос
-    </button>
+    
+    <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="input-group">
+            <input type="number" id="seededLawnPrice" placeholder="Цена за м² (руб)" value="5000" inputmode="decimal">
+            <input type="number" id="seededLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
+        </div>
+        <button onclick="addSeededLawnButton()"><i class="fas fa-seedling"></i> Добавить Посевной газон</button>
+    </div>
+    
+    <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="input-group">
+            <input type="number" id="rolledLawnPrice" placeholder="Цена за м² (руб)" value="900" inputmode="decimal">
+            <input type="number" id="rolledLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
+        </div>
+        <button onclick="addRolledLawnButton()"><i class="fas fa-seedling"></i> Добавить Рулонный газон</button>
+    </div>
+    
+    <button onclick="addCustom('Бригадир смена - 7,000', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7,000</button>
 </div>
-                    <button onclick="addSeededLawnButton()"><i class="fas fa-seedling"></i> Добавить Посевной газон</button>
-                </div>
-                <div class="custom-price" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div class="input-group">
-                        <input type="number" id="rolledLawnPrice" placeholder="Цена за м² (руб)" value="900" inputmode="decimal">
-                        <input type="number" id="rolledLawnArea" placeholder="Площадь (м²)" inputmode="decimal">
-                    </div>
-                    <button onclick="addRolledLawnButton()"><i class="fas fa-seedling"></i> Добавить Рулонный газон</button>
-                </div>
-                <button onclick="addCustom('Бригадир смена - 7,000', 7000)"><i class="fas fa-user-tie"></i> Бригадир смена - 7,000</button>
-                
-            </div>
-            
             <!-- Спил деревьев -->
             <div class="button-group">
                 <h3><i class="fas fa-tree"></i> Спил деревьев</h3>
