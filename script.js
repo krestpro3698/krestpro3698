@@ -243,6 +243,7 @@ function copyChatToClipboard() {
     textToCopy += '\n====================\n';
     textToCopy += 'Итого: ' + formatPrice(total) + ' т.р\n';
     textToCopy += 'Срок исполнения:\n';
+    textToCopy += 'Итоговая стоимость указана с учетом выполнения всех работ под ключ.\n';
     textToCopy += 'Предложение будет действительно в течение 14 дней.';
     
     
