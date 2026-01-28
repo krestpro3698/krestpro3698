@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система подбора подержанного автомобиля</title>
+    <style>
+:root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-16);
+  color: var(--color-text);
+}
+
+.header p {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+}
+
+.progress-container {
+  margin-bottom: var(--space-32);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-16);
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width var(--duration-normal) var(--ease-standard);
+  border-radius: var(--radius-full);
+}
+
+.stages {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.stage-card {
+  flex: 1;
+  min-width: 150px;
+  padding: var(--space-16);
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.stage-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.stage-card.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-1);
+}
+
+.stage-icon {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--space-8);
+}
+
+.stage-name {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-4);
+}
+
+.stage-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.content {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-top: var(--space-24);
+  min-height: 500px;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: var(--space-20);
+}
+
+.form-label {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-base);
+}
+
+.form-control {
+  width: 100%;
+  padding: var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+select.form-control {
+  cursor: pointer;
+}
+
+.checkbox-group, .radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.checkbox-item, .radio-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.slider-container {
+  padding: var(--space-8) 0;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: var(--color-secondary);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.priority-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+}
+
+.btn {
+  padding: var(--space-12) var(--space-24);
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--duration-normal) var(--ease-standard);
+}
+
+.btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn:active {
+  background-color: var(--color-primary-active);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-hover);
+}
+
+.btn-group {
+  display: flex;
+  gap: var(--space-12);
+  margin-top: var(--space-24);
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: var(--space-16);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-base);
+}
+
+thead {
+  background-color: var(--color-bg-1);
+}
+
+th, td {
+  padding: var(--space-12);
+  text-align: left;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+th {
+  font-weight: var(--font-weight-semibold);
+}
+
+tr:hover {
+  background-color: var(--color-bg-2);
+}
+
+.rating {
+  color: var(--color-warning);
+}
+
+.filters {
+  display: flex;
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.chart-container {
+  margin: var(--space-24) 0;
+  height: 300px;
+}
+
+.vin-checker {
+  background-color: var(--color-bg-1);
+  padding: var(--space-24);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-24);
+}
+
+.check-result {
+  margin-top: var(--space-24);
+  padding: var(--space-20);
+  border-radius: var(--radius-base);
+  border-left: 4px solid var(--color-success);
+  background-color: var(--color-bg-3);
+}
+
+.check-result.warning {
+  border-left-color: var(--color-warning);
+  background-color: var(--color-bg-2);
+}
+
+.check-result.danger {
+  border-left-color: var(--color-error);
+  background-color: var(--color-bg-4);
+}
+
+.risk-scale {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-top: var(--space-16);
+}
+
+.risk-bar {
+  flex: 1;
+  height: 24px;
+  background: linear-gradient(to right, var(--color-success), var(--color-warning), var(--color-error));
+  border-radius: var(--radius-base);
+  position: relative;
+}
+
+.risk-indicator {
+  position: absolute;
+  width: 4px;
+  height: 32px;
+  background-color: var(--color-text);
+  top: -4px;
+  transition: left var(--duration-normal) var(--ease-standard);
+}
+
+.checklist {
+  display: grid;
+  gap: var(--space-16);
+}
+
+.checklist-category {
+  background-color: var(--color-bg-1);
+  padding: var(--space-20);
+  border-radius: var(--radius-base);
+}
+
+.checklist-category h3 {
+  margin-bottom: var(--space-16);
+  font-size: var(--font-size-xl);
+}
+
+.checklist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-8) 0;
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+.checklist-item:last-child {
+  border-bottom: none;
+}
+
+.checklist-item label {
+  flex: 1;
+}
+
+.checklist-item select {
+  width: 150px;
+  padding: var(--space-6) var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.score-display {
+  text-align: center;
+  padding: var(--space-24);
+  background-color: var(--color-bg-5);
+  border-radius: var(--radius-lg);
+  margin: var(--space-24) 0;
+}
+
+.score-number {
+  font-size: 48px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+}
+
+.score-label {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+}
+
+.result-card {
+  background-color: var(--color-bg-1);
+  padding: var(--space-24);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-20);
+}
+
+.recommendation {
+  text-align: center;
+  padding: var(--space-32);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-24);
+}
+
+.recommendation.success {
+  background-color: var(--color-bg-3);
+  color: var(--color-success);
+}
+
+.recommendation.warning {
+  background-color: var(--color-bg-2);
+  color: var(--color-warning);
+}
+
+.recommendation.danger {
+  background-color: var(--color-bg-4);
+  color: var(--color-error);
+}
+
+.cost-breakdown {
+  margin-top: var(--space-24);
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-12) 0;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.cost-total {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
+  margin-top: var(--space-16);
+}
+
+@media (max-width: 768px) {
+  .stages {
+    flex-direction: column;
+  }
+  
+  .filters {
+    flex-direction: column;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .priority-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Система подбора подержанного автомобиля</h1>
+            <p>Профессиональный алгоритм подбора и проверки автомобиля</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="stages" id="stageCards"></div>
+
+        <div class="content">
+            <!-- Tab 1: Анкета -->
+            <div class="tab-content active" id="tab-0">
+                <h2 style="margin-bottom: var(--space-24);">Анкета клиента</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Имя и контакты</label>
+                    <input type="text" class="form-control" id="clientName" placeholder="Введите ваше имя">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Телефон</label>
+                    <input type="tel" class="form-control" id="clientPhone" placeholder="+7 (___) ___-__-__">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Бюджет</label>
+                    <select class="form-control" id="budget">
+                        <option value="">Выберите бюджет</option>
+                        <option value="300-500">300-500 тыс. руб.</option>
+                        <option value="500-1000">500-1 млн. руб.</option>
+                        <option value="1000-2000">1-2 млн. руб.</option>
+                        <option value="2000+">2+ млн. руб.</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Тип кузова (можно выбрать несколько)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sedan" value="sedan">
+                            <label for="sedan">Седан</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="suv" value="suv">
+                            <label for="suv">SUV</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hatchback" value="hatchback">
+                            <label for="hatchback">Хэтчбек</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="wagon" value="wagon">
+                            <label for="wagon">Универсал</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="minivan" value="minivan">
+                            <label for="minivan">Минивэн</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Возраст автомобиля: <span id="ageValue">5</span> лет</label>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="15" value="5" id="carAge" oninput="document.getElementById('ageValue').textContent = this.value">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Тип коробки передач</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="transmission" id="manual" value="manual">
+                            <label for="manual">Механика</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="transmission" id="automatic" value="automatic">
+                            <label for="automatic">Автомат</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="transmission" id="cvt" value="cvt">
+                            <label for="cvt">Вариатор</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="transmission" id="robot" value="robot">
+                            <label for="robot">Робот</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Приоритизация критериев (оцените от 1 до 5)</label>
+                    <div class="priority-grid">
+                        <div>
+                            <label class="form-label" style="font-size: var(--font-size-sm);">Цена</label>
+                            <select class="form-control" id="priorityPrice">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3" selected>3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: var(--font-size-sm);">Надёжность</label>
+                            <select class="form-control" id="priorityReliability">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5" selected>5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: var(--font-size-sm);">Комфорт</label>
+                            <select class="form-control" id="priorityComfort">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4" selected>4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: var(--font-size-sm);">Экономичность</label>
+                            <select class="form-control" id="priorityEconomy">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3" selected>3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="saveProfile()">Сохранить профиль</button>
+                </div>
+            </div>
+
+            <!-- Tab 2: Поиск -->
+            <div class="tab-content" id="tab-1">
+                <h2 style="margin-bottom: var(--space-24);">Поиск и анализ предложений</h2>
+                
+                <div class="filters">
+                    <div class="filter-item">
+                        <label class="form-label">Цена от</label>
+                        <input type="number" class="form-control" id="priceFrom" placeholder="300000">
+                    </div>
+                    <div class="filter-item">
+                        <label class="form-label">Цена до</label>
+                        <input type="number" class="form-control" id="priceTo" placeholder="2000000">
+                    </div>
+                    <div class="filter-item">
+                        <label class="form-label">Год от</label>
+                        <input type="number" class="form-control" id="yearFrom" placeholder="2010">
+                    </div>
+                    <div class="filter-item">
+                        <label class="form-label">Пробег до</label>
+                        <input type="number" class="form-control" id="mileageTo" placeholder="200000">
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" onclick="applyFilters()">Применить фильтры</button>
+
+                <div class="table-container">
+                    <table id="carsTable">
+                        <thead>
+                            <tr>
+                                <th>Марка</th>
+                                <th>Модель</th>
+                                <th>Год</th>
+                                <th>Цена</th>
+                                <th>Пробег</th>
+                                <th>Рейтинг</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="carsTableBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tab 3: Проверка -->
+            <div class="tab-content" id="tab-2">
+                <h2 style="margin-bottom: var(--space-24);">Проверка и верификация</h2>
+                
+                <div class="vin-checker">
+                    <h3 style="margin-bottom: var(--space-16);">Проверка VIN-номера</h3>
+                    <div style="display: flex; gap: var(--space-12);">
+                        <input type="text" class="form-control" id="vinNumber" placeholder="Введите VIN (17 символов)" maxlength="17">
+                        <button class="btn" onclick="checkVIN()">Проверить</button>
+                    </div>
+                </div>
+
+                <div id="vinResult" style="display: none;">
+                    <div class="check-result" id="checkResultBox">
+                        <h3 style="margin-bottom: var(--space-16);">Результаты проверки</h3>
+                        
+                        <div style="margin-bottom: var(--space-12);">
+                            <strong>История ДТП:</strong> <span id="accidentHistory"></span>
+                        </div>
+                        <div style="margin-bottom: var(--space-12);">
+                            <strong>Количество владельцев:</strong> <span id="ownersCount"></span>
+                        </div>
+                        <div style="margin-bottom: var(--space-12);">
+                            <strong>Обременения:</strong> <span id="liens"></span>
+                        </div>
+                        <div style="margin-bottom: var(--space-12);">
+                            <strong>Пробег:</strong> <span id="mileageHistory"></span>
+                        </div>
+                        <div style="margin-bottom: var(--space-12);">
+                            <strong>Использование в такси:</strong> <span id="taxiUse"></span>
+                        </div>
+
+                        <div class="risk-scale">
+                            <span>Риск-оценка:</span>
+                            <div class="risk-bar">
+                                <div class="risk-indicator" id="riskIndicator"></div>
+                            </div>
+                            <span id="riskScore">0/10</span>
+                        </div>
+
+                        <div style="margin-top: var(--space-20); padding: var(--space-16); background-color: var(--color-surface); border-radius: var(--radius-base);">
+                            <strong>Статус:</strong> <span id="finalStatus" style="font-size: var(--font-size-lg);"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Осмотр -->
+            <div class="tab-content" id="tab-3">
+                <h2 style="margin-bottom: var(--space-24);">Осмотр и диагностика</h2>
+                
+                <div class="score-display">
+                    <div class="score-number" id="conditionScore">0</div>
+                    <div class="score-label">Очки состояния из 100</div>
+                </div>
+
+                <div class="checklist" id="checklistContainer"></div>
+
+                <div class="form-group" style="margin-top: var(--space-24);">
+                    <label class="form-label">Комментарии специалиста</label>
+                    <textarea class="form-control" id="specialistComments" rows="4" placeholder="Дополнительные замечания..."></textarea>
+                </div>
+
+                <button class="btn" onclick="calculateCondition()">Рассчитать состояние</button>
+            </div>
+
+            <!-- Tab 5: Результат -->
+            <div class="tab-content" id="tab-4">
+                <h2 style="margin-bottom: var(--space-24);">Итоговый отчет</h2>
+                
+                <div class="recommendation success" id="finalRecommendation">
+                    Загрузка результатов...
+                </div>
+
+                <div class="result-card">
+                    <h3 style="margin-bottom: var(--space-16);">Сводная оценка</h3>
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>Оценка</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summaryTable">
+                            <tr>
+                                <td>Техническое состояние</td>
+                                <td id="techScore">-</td>
+                                <td id="techStatus">-</td>
+                            </tr>
+                            <tr>
+                                <td>Юридическая чистота</td>
+                                <td id="legalScore">-</td>
+                                <td id="legalStatus">-</td>
+                            </tr>
+                            <tr>
+                                <td>История эксплуатации</td>
+                                <td id="historyScore">-</td>
+                                <td id="historyStatus">-</td>
+                            </tr>
+                            <tr>
+                                <td>Соответствие требованиям</td>
+                                <td id="matchScore">-</td>
+                                <td id="matchStatus">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="result-card">
+                    <h3 style="margin-bottom: var(--space-16);">Ориентировочные затраты</h3>
+                    <div class="cost-breakdown" id="costBreakdown">
+                        <div class="cost-item">
+                            <span>Покупная цена:</span>
+                            <span id="purchasePrice">0 руб.</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Необходимый ремонт:</span>
+                            <span id="repairCost">0 руб.</span>
+                        </div>
+                        <div class="cost-item">
+                            <span>Оформление и регистрация:</span>
+                            <span>15 000 руб.</span>
+                        </div>
+                        <div class="cost-item cost-total">
+                            <span>Итого:</span>
+                            <span id="totalCost">0 руб.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn" onclick="downloadReport()">Скачать отчет PDF</button>
+                    <button class="btn btn-secondary" onclick="resetApp()">Начать сначала</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
