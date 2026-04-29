@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Калькулятор благоустройства | Прораб-калькулятор</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <h1>Прораб-калькулятор</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="subtitle">Расчёт благоустройства участка</p>
+        </header>
+
+        <div class="main-layout">
+            <!-- Левая колонка с категориями (аккордеон) -->
+            <div class="categories-sidebar">
+                <div class="category-card" data-category="clearing">
+                    <div class="category-header" onclick="toggleCategory('clearing')">
+                        <div class="category-icon"><i class="fas fa-tree"></i></div>
+                        <div class="category-info">
+                            <h3>Расчистка участка</h3>
+                            <span class="category-badge">Этап 1-2</span>
+                        </div>
+                        <i class="fas fa-chevron-down category-arrow"></i>
+                    </div>
+                    <div class="category-content" id="category-clearing">
+                        <!-- Контент будет из script.js динамически? Нет, лучше статически, но скрыто -->
+                        <div class="service-list">
+                            <div class="service-group">
+                                <div class="service-group-title"><i class="fas fa-cut"></i> Этап 1</div>
+                                <div class="service-item">
+                                    <div class="service-fields">
+                                        <input type="number" id="spilTreePrice" placeholder="Цена за шт/сотку" class="price-input">
+                                        <input type="number" id="spilTreeCost" placeholder="Себестоимость" class="cost-input">
+                                        <input type="number" id="spilTreeQuantity" placeholder="Кол-во" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addAreaBasedWithMargin('Спил/распил деревьев', 'spilTreePrice', 'spilTreeCost', 'spilTreeQuantity', 'шт/сотка')">
+                                        <i class="fas fa-cut"></i> Спил/распил
+                                    </button>
+                                </div>
+                                <div class="service-item">
+                                    <div class="service-fields">
+                                        <input type="number" id="takelazhPrice" placeholder="Цена" class="price-input">
+                                        <input type="number" id="takelazhCost" placeholder="Себестоимость" class="cost-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addWithCustomMargin('Такелажные работы', 'takelazhPrice', 'takelazhCost')">
+                                        <i class="fas fa-tools"></i> Такелаж
+                                    </button>
+                                </div>
+                                <div class="service-item compact">
+                                    <button class="service-btn" onclick="addWithMargin('Контейнер 27м3', 38000, 30000)">
+                                        <i class="fas fa-dumpster"></i> Контейнер 27м³
+                                    </button>
+                                </div>
+                                <div class="service-item compact">
+                                    <button class="service-btn" onclick="addWithMargin('Контейнер 8м3', 18000, 11500)">
+                                        <i class="fas fa-dumpster"></i> Контейнер 8м³
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="service-group">
+                                <div class="service-group-title"><i class="fas fa-tractor"></i> Этап 2</div>
+                                <div class="service-item">
+                                    <div class="service-fields">
+                                        <input type="number" id="tractorCount1" placeholder="Кол-во смен" value="1" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addTechWithCount('Трактор смена (7ч+1ч подачи)', 35000, 25000, 'tractorCount1', 'смена')">
+                                        <i class="fas fa-tractor"></i> Трактор
+                                    </button>
+                                </div>
+                                <div class="service-item">
+                                    <div class="service-fields">
+                                        <input type="number" id="dumpTruckCount" placeholder="Кол-во рейсов" value="1" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addTechWithCount('Самосвал 20м3', 38000, 25000, 'dumpTruckCount', 'рейс')">
+                                        <i class="fas fa-truck"></i> Самосвал
+                                    </button>
+                                </div>
+                                <div class="service-item">
+                                    <div class="service-fields">
+                                        <input type="number" id="stumpPrice" placeholder="Цена" class="price-input">
+                                        <input type="number" id="stumpCost" placeholder="Себестоимость" class="cost-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addWithCustomMargin('Фрезеровка пней', 'stumpPrice', 'stumpCost')">
+                                        <i class="fas fa-tree"></i> Фрезеровка пней
+                                    </button>
+                                </div>
+                                <div class="service-item">
+                                    <div class="service-fields">
+                                        <input type="number" id="brigadirCount1" placeholder="Кол-во смен" value="1" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addBrigadirWithCount('Бригадир смена', 10000, 'brigadirCount1')">
+                                        <i class="fas fa-user-tie"></i> Бригадир
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card" data-category="leveling">
+                    <div class="category-header" onclick="toggleCategory('leveling')">
+                        <div class="category-icon"><i class="fas fa-shovel"></i></div>
+                        <div class="category-info">
+                            <h3>Выравнивание участка</h3>
+                            <span class="category-badge">Этап 3</span>
+                        </div>
+                        <i class="fas fa-chevron-down category-arrow"></i>
+                    </div>
+                    <div class="category-content" id="category-leveling">
+                        <div class="service-list">
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="tractorCount2" placeholder="Кол-во смен" value="1" class="qty-input">
+                                </div>
+                                <button class="service-btn" onclick="addTechWithCount('Трактор смена', 35000, 25000, 'tractorCount2', 'смена')">
+                                    <i class="fas fa-tractor"></i> Трактор
+                                </button>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="miniTechCount" placeholder="Кол-во смен" value="1" class="qty-input">
+                                </div>
+                                <button class="service-btn" onclick="addTechWithCount('Мини-техника смена', 40000, 30000, 'miniTechCount', 'смена')">
+                                    <i class="fas fa-tractor"></i> Мини-техника
+                                </button>
+                            </div>
+                            <div class="service-group">
+                                <div class="service-group-title"><i class="fas fa-truck"></i> Сыпучие материалы</div>
+                                <div class="service-item compact">
+                                    <div class="service-fields">
+                                        <input type="number" id="sandVolume" placeholder="Объём, м³" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addVolumeWithAutoCost('Песок', 'sandVolume', 2300)">
+                                        <i class="fas fa-dune"></i> Песок (2300 ₽/м³)
+                                    </button>
+                                </div>
+                                <div class="service-item compact">
+                                    <div class="service-fields">
+                                        <input type="number" id="gravelVolume" placeholder="Объём, м³" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addVolumeWithAutoCost('Щебень 20-40', 'gravelVolume', 5000)">
+                                        <i class="fas fa-road"></i> Щебень (5000 ₽/м³)
+                                    </button>
+                                </div>
+                                <div class="service-item compact">
+                                    <div class="service-fields">
+                                        <input type="number" id="planningGroundVolume" placeholder="Объём, м³" class="qty-input">
+                                    </div>
+                                    <button class="service-btn" onclick="addVolumeWithAutoCost('Планировочный грунт', 'planningGroundVolume', 2500)">
+                                        <i class="fas fa-layer-group"></i> Планировочный грунт
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card" data-category="lawn">
+                    <div class="category-header" onclick="toggleCategory('lawn')">
+                        <div class="category-icon"><i class="fas fa-seedling"></i></div>
+                        <div class="category-info">
+                            <h3>Устройство газона</h3>
+                            <span class="category-badge">Этап 4</span>
+                        </div>
+                        <i class="fas fa-chevron-down category-arrow"></i>
+                    </div>
+                    <div class="category-content" id="category-lawn">
+                        <div class="service-list">
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="seededLawnPrice" placeholder="Цена за м²" value="900" class="price-input">
+                                    <input type="number" id="seededLawnCost" placeholder="Себестоимость" value="500" class="cost-input">
+                                    <input type="number" id="seededLawnArea" placeholder="Площадь, м²" class="qty-input">
+                                </div>
+                                <button class="service-btn success" onclick="addSeededLawnButton()">
+                                    <i class="fas fa-seedling"></i> Посевной газон
+                                </button>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="rolledLawnPrice" placeholder="Цена за м²" value="1300" class="price-input">
+                                    <input type="number" id="rolledLawnCost" placeholder="Себестоимость" value="800" class="cost-input">
+                                    <input type="number" id="rolledLawnArea" placeholder="Площадь, м²" class="qty-input">
+                                </div>
+                                <button class="service-btn success" onclick="addRolledLawnButton()">
+                                    <i class="fas fa-border-all"></i> Рулонный газон
+                                </button>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="frezPrice" placeholder="Цена за сотку" value="10000" class="price-input">
+                                    <input type="number" id="frezCost" placeholder="Себестоимость" value="7000" class="cost-input">
+                                    <input type="number" id="frezArea" placeholder="Кол-во соток" class="qty-input">
+                                </div>
+                                <button class="service-btn" onclick="addAreaBasedWithMargin('Фрезеровка', 'frezPrice', 'frezCost', 'frezArea', 'сотка')">
+                                    <i class="fas fa-tractor"></i> Фрезеровка
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card" data-category="improvement">
+                    <div class="category-header" onclick="toggleCategory('improvement')">
+                        <div class="category-icon"><i class="fas fa-hard-hat"></i></div>
+                        <div class="category-info">
+                            <h3>Благоустройство</h3>
+                            <span class="category-badge">Этап 5</span>
+                        </div>
+                        <i class="fas fa-chevron-down category-arrow"></i>
+                    </div>
+                    <div class="category-content" id="category-improvement">
+                        <div class="service-list">
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="pavingSandArea" placeholder="Площадь, м²" class="qty-input">
+                                </div>
+                                <button class="service-btn" onclick="addPavingSandWithMargin()">
+                                    <i class="fas fa-cubes"></i> Брусчатка (песчаное осн.)
+                                </button>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="pavingConcreteArea" placeholder="Площадь, м²" class="qty-input">
+                                </div>
+                                <button class="service-btn" onclick="addPavingConcreteWithMargin()">
+                                    <i class="fas fa-cubes"></i> Брусчатка (бетонное осн.)
+                                </button>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-fields">
+                                    <input type="number" id="gravelRoadArea" placeholder="Площадь, м²" class="qty-input">
+                                </div>
+                                <button class="service-btn" onclick="addGravelRoadWithMargin()">
+                                    <i class="fas fa-road"></i> Песчано-щебневая дорога
+                                </button>
+                            </div>
+                            <div class="service-item">
+                                <button class="service-btn" onclick="addDrivewayButton()">
+                                    <i class="fas fa-car"></i> Въездная группа
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка - корзина/расчёт -->
+            <div class="cart-section">
+                <div class="cart-header">
+                    <h3><i class="fas fa-shopping-cart"></i> Смета</h3>
+                    <button class="clear-cart" onclick="clearChat()">
+                        <i class="fas fa-trash-alt"></i> Очистить
+                    </button>
+                </div>
+                <div class="cart-items" id="chat">
+                    <div class="empty-cart-message">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Добавьте услуги из левой панели</p>
+                        <span>Нажмите на категорию, чтобы раскрыть список</span>
+                    </div>
+                </div>
+                
+                <!-- Плавающая панель с итогами -->
+                <div class="totals-panel">
+                    <div class="total-row total-revenue">
+                        <span>💰 Итого к оплате:</span>
+                        <span id="total">0 ₽</span>
+                    </div>
+                    <div class="total-details">
+                        <div class="total-detail-item">
+                            <span>📊 Себестоимость:</span>
+                            <span id="totalCost">0 ₽</span>
+                        </div>
+                        <div class="total-detail-item">
+                            <span>💵 Прибыль проекта:</span>
+                            <span id="totalProfit">0 ₽</span>
+                        </div>
+                        <div class="total-detail-item">
+                            <span>📈 Маржа:</span>
+                            <span id="totalMargin">0%</span>
+                        </div>
+                        <div class="total-detail-item your-cut">
+                            <span>💰 Ваши 7%:</span>
+                            <span id="yourCut">0 ₽</span>
+                        </div>
+                    </div>
+                    <button class="copy-estimate" onclick="copyChatToClipboard()">
+                        <i class="fas fa-copy"></i> Копировать смету
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-notice" id="copyNotice"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
