@@ -229,7 +229,7 @@ function getSotkaLabel(number) {
     return 'соток';
 }
 
-// Посевной газон
+// Посевной газон (ИСПРАВЛЕННЫЙ)
 function addSeededLawnButton() {
     const price = parseFloat(document.getElementById('seededLawnPrice').value);
     const cost = parseFloat(document.getElementById('seededLawnCost').value);
@@ -249,7 +249,8 @@ function addSeededLawnButton() {
     }
     
     const revenue = price * area;
-    const totalCost = cost * area;
+    const totalCostValue = cost * area;  // Переименовал, чтобы не конфликтовать с глобальной переменной
+    
     const description = `Посевной газон под ключ (${formatPrice(price)} ₽/м² × ${area} м²) — ${formatPrice(revenue)} ₽\n   • Фрезеровка участка в два прохода + выравнивание участка\n   • доставка, отсыпка, и распределение плодородного грунта (поднятие на 5см)\n   • травосмесь премиум\n   • посев в 2 прохода + ручное выравнивание\n   • укатка грунта\n   • заделка семян\n   • Посев семян`;
     
     const chat = document.getElementById('chat');
@@ -260,20 +261,25 @@ function addSeededLawnButton() {
     
     const message = document.createElement('div');
     message.className = 'message-numbered';
-    const profit = revenue - totalCost;
+    const profit = revenue - totalCostValue;
     const margin = revenue > 0 ? (profit / revenue * 100).toFixed(1) : 0;
-    message.textContent = `${description} (себ.: ${formatPrice(totalCost)} ₽, прибыль: ${formatPrice(profit)} ₽, маржа: ${margin}%)`;
+    message.textContent = `${description} (себ.: ${formatPrice(totalCostValue)} ₽, прибыль: ${formatPrice(profit)} ₽, маржа: ${margin}%)`;
     chat.appendChild(message);
     
+    // Обновляем глобальные переменные
     totalRevenue += revenue;
-    totalCost += totalCost;
+    totalCost += totalCostValue;
+    
+    console.log('Добавлено: выручка=' + revenue + ', себест=' + totalCostValue);
+    console.log('Всего: выручка=' + totalRevenue + ', себест=' + totalCost);
+    
     updateTotals();
     chat.scrollTop = chat.scrollHeight;
     
     document.getElementById('seededLawnArea').value = '';
 }
 
-// Рулонный газон
+// Рулонный газон (ИСПРАВЛЕННЫЙ)
 function addRolledLawnButton() {
     const price = parseFloat(document.getElementById('rolledLawnPrice').value);
     const cost = parseFloat(document.getElementById('rolledLawnCost').value);
@@ -293,7 +299,8 @@ function addRolledLawnButton() {
     }
     
     const revenue = price * area;
-    const totalCost = cost * area;
+    const totalCostValue = cost * area;
+    
     const description = `Рулонный газон под ключ (${formatPrice(price)} ₽/м² × ${area} м²) — ${formatPrice(revenue)} ₽\n   • Фрезеровка участка в два прохода + выравнивание участка\n   • доставка, отсыпка, и распределение плодородного грунта (поднятие на 5см)\n   • Финальное выравнивание и прикатывание грунтового слоя катком\n   • Укладка/Подрезка рулонного газона\n   • Рулонный газон\n   • Послеукладочные работы`;
     
     const chat = document.getElementById('chat');
@@ -304,13 +311,18 @@ function addRolledLawnButton() {
     
     const message = document.createElement('div');
     message.className = 'message-numbered';
-    const profit = revenue - totalCost;
+    const profit = revenue - totalCostValue;
     const margin = revenue > 0 ? (profit / revenue * 100).toFixed(1) : 0;
-    message.textContent = `${description} (себ.: ${formatPrice(totalCost)} ₽, прибыль: ${formatPrice(profit)} ₽, маржа: ${margin}%)`;
+    message.textContent = `${description} (себ.: ${formatPrice(totalCostValue)} ₽, прибыль: ${formatPrice(profit)} ₽, маржа: ${margin}%)`;
     chat.appendChild(message);
     
+    // Обновляем глобальные переменные
     totalRevenue += revenue;
-    totalCost += totalCost;
+    totalCost += totalCostValue;
+    
+    console.log('Добавлено: выручка=' + revenue + ', себест=' + totalCostValue);
+    console.log('Всего: выручка=' + totalRevenue + ', себест=' + totalCost);
+    
     updateTotals();
     chat.scrollTop = chat.scrollHeight;
     
